@@ -1,0 +1,56 @@
+﻿ciudad,region_7,d_region_7,region_4,d_region_4,ent,entidad
+Mexicali,1,Frontera Norte,1,Norte, BC,Baja California
+Cd. Juárez,1,Frontera Norte,1,Norte, Chih,Chihuahua
+Tijuana,1,Frontera Norte,1,Norte, BC,Baja California
+Matamoros,1,Frontera Norte,1,Norte, Tamps,Tamaulipas
+Cd. Acuña,1,Frontera Norte,1,Norte, Coah,Coahuila
+La Paz,1,Frontera Norte,2,Centro Norte, BCS,Baja California Sur
+Culiacán,2,Noroeste,2,Centro Norte, Sin,Sinaloa
+Hermosillo,2,Noroeste,1,Norte, Son,Sonora
+Huatabampo,2,Noroeste,1,Norte, Son,Sonora
+Tepic,2,Noroeste,2,Centro Norte, Nay,Nayarit
+Esperanza,2,Noroeste,1,Norte, Son,Sonora
+Monterrey,3,Noreste,1,Norte, NL,Nuevo Leon
+Torreón,3,Noreste,1,Norte, Coah,Coahuila
+Tampico,3,Noreste,1,Norte, Tamps,Tamaulipas
+Chihuahua,3,Noreste,1,Norte, Chih,Chihuahua
+Monclova,3,Noreste,1,Norte, Coah,Coahuila
+Fresnillo,3,Noreste,2,Centro Norte, Zac,Zacatecas
+Jiménez,3,Noreste,1,Norte, Chih,Chihuahua
+Durango,3,Noreste,2,Centro Norte, Dgo,Durango
+Saltillo,3,Noreste,1,Norte, Coah,Coahuila
+Zacatecas,3,Noreste,2,Centro Norte, Zac,Zacatecas
+Morelia,4,Centro Norte,2,Centro Norte, Mich,Michoacan
+Guadalajara,4,Centro Norte,2,Centro Norte, Jal,Jalisco
+León,4,Centro Norte,3,Centro, Gto,Guanajuato
+San Luis Potosí,4,Centro Norte,2,Centro Norte, SLP,San Luis Potosi
+Aguascalientes,4,Centro Norte,2,Centro Norte, Ags,Aguascalientes
+Colima,4,Centro Norte,2,Centro Norte, Col,Colima
+Jacona,4,Centro Norte,2,Centro Norte, Mich,Michoacan
+Cortazar,4,Centro Norte,3,Centro, Gto,Guanajuato
+Querétaro,4,Centro Norte,3,Centro, Qro,Queretaro
+Tepatitlán,4,Centro Norte,2,Centro Norte, Jal,Jalisco
+Acapulco,5,Centro Sur,4,Sur, Gro,Guerrero
+Puebla,5,Centro Sur,3,Centro, Pue,Puebla
+Toluca,5,Centro Sur,3,Centro, Edo de Méx,Estado De Mexico
+Veracruz,5,Centro Sur,4,Sur, Ver,Veracruz
+Córdoba,5,Centro Sur,4,Sur, Ver,Veracruz
+Iguala,5,Centro Sur,4,Sur, Gro,Guerrero
+Tulancingo,5,Centro Sur,3,Centro, Hgo,Hidalgo
+Cuernavaca,5,Centro Sur,3,Centro, Mor,Morelos
+Tlaxcala,5,Centro Sur,3,Centro, Tlax,Tlaxcala
+San Andrés Tuxtla,5,Centro Sur,4,Sur, Ver,Veracruz
+Atlacomulco,5,Centro Sur,3,Centro, Edo de Méx,Estado De Mexico
+Izúcar de Matamoros,5,Centro Sur,3,Centro, Pue,Puebla
+Pachuca,5,Centro Sur,3,Centro, Hgo,Hidalgo
+Mérida,6,Sur,4,Sur, Yuc,Yucatan
+Tapachula,6,Sur,4,Sur, Chis,Chiapas
+Villahermosa,6,Sur,4,Sur, Tab,Tabasco
+Chetumal,6,Sur,4,Sur, Q Roo,Quintana Roo
+Oaxaca,6,Sur,4,Sur, Oax,Oaxaca
+Campeche,6,Sur,4,Sur, Camp,Campeche
+Tehuantepec,6,Sur,4,Sur, Oax,Oaxaca
+Cancún,6,Sur,4,Sur, Q Roo,Quintana Roo
+Coatzacoalcos,6,Sur,4,Sur, Ver,Veracruz
+Tuxtla Gutiérrez,6,Sur,4,Sur, Chis,Chiapas
+Área Met. de la Cd. de México,7,Área Met Cd. de México,3,Centro,Cdmx,Ciudad De Mexico
