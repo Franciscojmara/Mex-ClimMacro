@@ -24,12 +24,6 @@ dataPath <- file.path(mainPath, "Data")
 figsPath <- file.path(mainPath, "Figures")
 resuPath <- file.path(mainPath, "Results")
 
-# Create directories
-dname <- "Data/Preprocessed"
-if(!dir.exists(dname)) dir.create(dname, recursive = TRUE)
-if(!dir.exists(figsPath)) dir.create(figsPath, recursive = TRUE)
-if(!dir.exists(resuPath)) dir.create(resuPath, recursive = TRUE)
-
 # Change ma.mean in case of CONAGUA data
 if(climate_db == "CONAGUA") ma.means <- 15
 

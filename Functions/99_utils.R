@@ -256,7 +256,8 @@ region.titles <- function(x){
          "noroeste"      = "North West",
          "norte"         = "North",
          "sur"           = "South",
-         "nacional"      = "National"
+         "nacional"      = "National",
+         str_to_title(gsub("\\.", " ", as.character(x)))
   )
 }
 

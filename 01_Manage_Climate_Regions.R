@@ -147,11 +147,16 @@ if (weight_dta) {
 }  
 temp <- select(temp, -any_of(c("poblacion","weight")))
 
-# Remove either 7 or 4 regions
-to.rm <- ifelse(no_regions == "4", 7, 4)
-to.rm <- paste0(c("region_", "d_region_"), to.rm)
-temp  <- select(temp, -all_of(to.rm))
-names(temp)[1:2] <- c("region", "d_region")
+# Remove either 4, 7, or 32 regions
+if(no_regions != 32){
+  to.rm <- ifelse(no_regions == "4", 7, 4)
+  temp  <- select(temp, -all_of(paste0(c("region_", "d_region_"), to.rm)))
+  names(temp)[1:2] <- c("region", "d_region")
+} else {
+  to.rm <- c("region_", "d_region_")
+  temp  <- select(temp, -starts_with(to.rm))
+  temp  <- mutate(temp, region=1:32, d_region=entidad, .before=everything())
+}
 
 # Calculate mean National temperature
 to.summ  <- setdiff(names(temp), c("region", "d_region", "entidad"))
@@ -235,7 +240,7 @@ for(ma.mean0 in ma.means) {
   
   # Final touches before merging with observed temperatures
   if (data_freq == "Quarterly"){
-    mean.temp    <- to_quarterly(mean.temp)
+    mean.temp <- to_quarterly(mean.temp)
   }
   mean.temp <- mean.temp %>% 
     pivot_longer(cols = !fecha, names_to = "region", values_to = "mean.temp")
@@ -325,7 +330,7 @@ for(ma.mean0 in ma.means) {
   }
   
   # Store in list
-  temp.norms[[paste0("MA", ma.mean0)]] <- select(tempt, -fdev.temp)
+  temp.norms[[paste0("MA", ma.mean0)]] <- select(tempt, -any_of(c("fdev.temp")))
 }
 cat("\n ** Temperature data done! \n\n")
 
@@ -375,10 +380,15 @@ if (weight_dta) {
 prec <- prec %>% select(-any_of(c("poblacion","weight")))
 
 # Remove either 7 or 4 regions
-to.rm <- ifelse(no_regions == "4", 7, 4)
-to.rm <- paste0(c("region_", "d_region_"), to.rm)
-prec  <- select(prec, -all_of(to.rm))
-names(prec)[1:2] <- c("region", "d_region")
+if(no_regions != 32){
+  to.rm <- ifelse(no_regions == "4", 7, 4)
+  prec  <- select(prec, -all_of(paste0(c("region_", "d_region_"), to.rm)))
+  names(prec)[1:2] <- c("region", "d_region")
+} else {
+  to.rm <- c("region_", "d_region_")
+  prec  <- select(prec, -starts_with(to.rm))
+  prec  <- mutate(prec, region=1:32, d_region=entidad, .before=everything())
+}
 
 # Calculate mean National temperature
 to.summ  <- setdiff(names(prec), c("region", "d_region", "entidad"))
@@ -513,7 +523,6 @@ for(ma.mean0 in ma.means) {
   # 2/(m+1), where "m" is the size of the rolling window used to estimate the norm 
   prect <- prect %>% 
     mutate(
-      fdev.prec            = deviation.precip,
       deviation.precip     = (2/(ma.mean0+1)) * deviation.precip,
       abs.deviation.precip = abs(deviation.precip)
     ) %>% 
@@ -529,7 +538,7 @@ for(ma.mean0 in ma.means) {
     )
   
   # Store in list
-  prec.norms[[paste0("MA", ma.mean0)]] <- select(prect, -fdev.prec)
+  prec.norms[[paste0("MA", ma.mean0)]] <- prect
 }
 cat("\n ** Precipitation data done! \n\n")
 

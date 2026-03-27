@@ -88,10 +88,15 @@ mex.reg <- mex.reg %>%
   select(-to.rm)
 
 # Remove either 7 or 4 regions
-to.rm <- ifelse(no_regions == "4", 7, 4)
-to.rm <- paste0(c("region_", "d_region_"), to.rm)
-mex.reg  <- select(mex.reg, -all_of(to.rm))
-names(mex.reg)[1:2] <- c("region", "d_region")
+if(no_regions != 32){
+  to.rm   <- ifelse(no_regions == "4", 7, 4)
+  mex.reg <- select(mex.reg, -all_of(paste0(c("region_", "d_region_"), to.rm)))
+  names(mex.reg)[1:2] <- c("region", "d_region")
+} else {
+  to.rm   <- c("region_", "d_region_")
+  mex.reg <- select(mex.reg, -starts_with(to.rm))
+  mex.reg <- mutate(mex.reg, region=1:32, d_region=entidad, .before=everything())
+}
 
 # Manage state names in map (to merge with regions)
 mex.map$name <- stri_trans_general(str = mex.map$name, id = "Latin-ASCII")#no accents
@@ -107,14 +112,26 @@ mex.map <- rename(mex.map, entidad = name)
 mex.map <- full_join(mex.map, mex.reg, by = "entidad")
 
 # Manage regions name
-mex.map <- mex.map %>% 
-  mutate(
-    d_region = tolower(make.names(d_region, unique = TRUE)),
-    d_region = stri_trans_general(str = d_region, id = "Latin-ASCII"),#no accent
-    d_region = gsub("x.", "", d_region),
-    d_region = gsub("cd..de.meco", "cdmx", d_region),
-    d_region = gsub(".[1-9]$", "", d_region)
-  )
+if (no_regions != 32) {
+  mex.map <- mex.map %>% 
+    mutate(
+      d_region = tolower(make.names(d_region, unique = TRUE)),
+      d_region = stri_trans_general(str = d_region, id = "Latin-ASCII"),#no accent
+      d_region = gsub("x.", "", d_region),
+      d_region = gsub("cd..de.meco", "cdmx", d_region),
+      d_region = gsub(".[1-9]$", "", d_region)
+    )
+} else {
+  mex.map <- mex.map %>% 
+    mutate(
+      d_region = tolower(make.names(d_region, unique = TRUE)),
+      d_region = stri_trans_general(str = d_region, id = "Latin-ASCII"),#no accent
+      d_region = gsub("meco", "mexico", d_region),
+      d_region = gsub("tlaala", "tlaxcala", d_region),
+      d_region = gsub("oaca", "oaxaca", d_region),
+      d_region = gsub("michoaxacan", "michoacan", d_region)
+    )
+}
 
 
 ## Data to use in all plots and tables
@@ -192,7 +209,7 @@ sum.table$var    <- factor(sum.table$var, levels = vars)
 sum.table <- sum.table[order(sum.table$var, sum.table$region), ]
 
 # Table: export - Cleaned and formatted table to xlsx/tex formats
-source("Functions/50_Summary_Tables.R")
+if(no_regions != 32) source("Functions/50_Summary_Tables.R")
 
 
 
@@ -227,10 +244,12 @@ xbreaks <- seq.Date(
   theme(legend.position = "none"))
 
 # Plot: export
-fname <- paste0("TimeSeries_National-Inflation-HEADLINE_", data_freq, ".pdf")
+fname <- paste0("TimeSeries_National-Inflation-HEADLINE_",data_freq,"_",no_regions, 
+                "Regions.pdf")
 fpath <- file.path(figsPath, "Inflation")
 if(!dir.exists(fpath)) dir.create(fpath, recursive = TRUE)
-ggsave(file.path(fpath, fname), p, width=15, height=9, units="cm", dpi=300)
+fpath <- file.path(fpath, fname)
+if(no_regions != 32) ggsave(fpath, p, width=15, height=9, units="cm", dpi=300)
 
 
 ## Plot price inflation -- All series, all regions (intended for appendix)
@@ -286,7 +305,7 @@ for (i in inpc_var) {
   fname <- paste0("TimeSeries_Regional-Inflation-", toupper(i), "_", data_freq, "_", 
                   no_regions, "Regions.pdf")
   fpath <- file.path(figsPath, "Inflation", fname)
-  ggsave(fpath, p, width=15, height=9, units="cm", dpi=300)
+  if(no_regions != 32) ggsave(fpath, p, width=15, height=9, units="cm", dpi=300)
 }
 
 
@@ -300,7 +319,7 @@ pdata.r <- idata %>% select(date, region, d.gdp.total) %>% filter(region != "nac
 pdata.n <- idata %>% select(date, region, d.gdp.total) %>% filter(region == "nacional") 
 
 # Plot: helpers
-ybreaks <- seq(-15, 15, 5) #seq(0, 500, 100)
+ybreaks <- seq(-15, 15, 5) 
 xbreaks <- seq.Date(
   start_date %m+% months(ifelse(infvar == "y", 12, 3)), end_date, by = "4 year"
 )
@@ -321,7 +340,8 @@ xbreaks <- seq.Date(
 fname <- paste0("TimeSeries_National-GDP-TOTAL-PerCapita_", data_freq, ".pdf")
 fpath <- file.path(figsPath, "GDP")
 if(!dir.exists(fpath)) dir.create(fpath, recursive = TRUE)
-ggsave(file.path(fpath, fname), p, width=15, height=9, units="cm", dpi=300)
+fpath <- file.path(fpath, fname)
+if(no_regions != 32) ggsave(fpath, p, width=15, height=9, units="cm", dpi=300)
 
 
 ## Plot real GDP per capita -- Sector and region total
@@ -378,7 +398,7 @@ for (pvar0 in c("total","primarias","secundarias","terciarias")) {
   fname <- paste0("TimeSeries_Regional-GDP-", gsub("^D\\.GDP\\.", "", toupper(pvar)),
                   "-PerCapita_", data_freq, "_", no_regions, "Regions.pdf")
   fpath <- file.path(figsPath, "GDP", fname)
-  ggsave(fpath, p, width=15, height=9, units="cm", dpi=300)
+  if(no_regions != 32) ggsave(fpath, p, width=15, height=9, units="cm", dpi=300)
 }
 
 
@@ -391,7 +411,12 @@ for (pvar0 in c("total","primarias","secundarias","terciarias")) {
 ## Time series of temperature anomalies ----------------------------------------
 
 # Plot: data
-pdata <- select(cdata, date, region, deviation.temp)
+pdata <- cdata %>% 
+  select(date, region, deviation.temp) %>% 
+  group_by(region) %>% 
+  mutate(deviation.temp = deviation.temp - dplyr::lag(deviation.temp)) %>% 
+  slice(-1) %>% 
+  ungroup() 
 
 regs <- c("nacional", setdiff(unique(pdata$region), "nacional"))
 pdata$region <- factor(pdata$region, levels = regs)
@@ -423,7 +448,7 @@ for(tp in c("national", "regional")) {
   (
     p <- p +
       geom_hline(yintercept = 0, linewidth = 0.5) +
-      labs(x = "", y = expression(tilde(T)[it](m))) +
+      labs(x = "", y = expression(Delta * tilde(T)[it](m))) +
       scale_x_date(breaks = dtebreaks, date_labels = "%Y", expand = c(0, 0)) +
       scale_y_continuous(breaks = ybreaks) +
       coord_cartesian(ylim = c(head(ybreaks, 1), tail(ybreaks, 1))) +
@@ -445,7 +470,7 @@ for(tp in c("national", "regional")) {
     fname <- paste(fname, paste0(no_regions, "Regiones"), sep = "_")
   }
   fpath <- file.path(fpath, paste(fname, "pdf", sep = "."))
-  ggsave(fpath, p, width = 15, height = 09, units = "cm")
+  if(no_regions != 32) ggsave(fpath, p, width = 15, height = 09, units = "cm")
 }
 
 
@@ -453,13 +478,18 @@ for(tp in c("national", "regional")) {
 ## Time series of precipitation anomalies --------------------------------------
 
 # Plot: data
-pdata <- select(cdata, date, region, deviation.precip)
+pdata <- cdata %>% 
+  select(date, region, deviation.precip) %>% 
+  group_by(region) %>% 
+  mutate(deviation.precip = deviation.precip - dplyr::lag(deviation.precip)) %>% 
+  slice(-1) %>% 
+  ungroup() 
 
 regs <- c("nacional", setdiff(unique(pdata$region), "nacional"))
 pdata$region <- factor(pdata$region, levels = regs)
 
 # Plot: helpers
-ybreaks   <- seq(-2, 4, 2)
+ybreaks   <- seq(-4, 4, 2)
 dtebreaks <- seq.Date(
   head(inpc.clim$date,1) %m+% months(3), tail(inpc.clim$date,1), by="4 year"
 )
@@ -485,7 +515,7 @@ for(tp in c("national", "regional")) {
   (
     p <- p +
       geom_hline(yintercept = 0, linewidth = 0.5) +
-      labs(x = "", y = expression(tilde(P)[it](m))) +
+      labs(x = "", y = expression(Delta * tilde(P)[it](m))) +
       scale_x_date(breaks = dtebreaks, date_labels = "%Y", expand = c(0, 0)) +
       scale_y_continuous(breaks = ybreaks) +
       coord_cartesian(ylim = c(head(ybreaks, 1), tail(ybreaks, 1))) +
@@ -502,7 +532,7 @@ for(tp in c("national", "regional")) {
     fname <- paste(fname, paste0(no_regions, "Regiones"), sep = "_")
   }
   fpath <- file.path(fpath, paste(fname, "pdf", sep = "."))
-  ggsave(fpath, p, width = 15, height = 09, units = "cm")
+  if(no_regions != 32) ggsave(fpath, p, width = 15, height = 09, units = "cm")
 }
 
 
@@ -553,7 +583,8 @@ for (cvar in c("deviation.temp", "deviation.precip")) {
                     toupper(region.titles.plot(region)),"_",data_freq,"_MA",mname,".pdf")
     fpath <- file.path(figsPath, file.path("Climate", subdir))
     if(!dir.exists(fpath)) dir.create(fpath, recursive = TRUE)
-    ggsave(file.path(fpath, fname), p, width=16, height=9, units="cm", dpi=300)
+    fpath <- file.path(fpath, fname)
+    if(no_regions != 32) ggsave(fpath, p, width=16, height=9, units="cm", dpi=300)
   }
 }
 
@@ -583,7 +614,7 @@ pdata <- mex.map
 # Plot: export
 fname <- paste0("Map-Mexico_", no_regions, "Regions.pdf")
 fpath <- file.path(figsPath, "Maps", fname)
-ggsave(fpath, plot=p1, width=15, height=12, units="cm", dpi=300)
+if(no_regions != 32) ggsave(fpath, plot=p1, width=15, height=12, units="cm", dpi=300)
 
 
 

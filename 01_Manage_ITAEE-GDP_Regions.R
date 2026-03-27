@@ -174,10 +174,19 @@ if (sead_adjst) {
 itaee <- full_join(regions, itaee, by = "entidad")
 
 # Remove either 4 or 7 regions
-to.rm <- ifelse(no_regions == 4, 7, 4)
-to.rm <- paste0(c("region_", "d_region_"), to.rm)
-itaee <- select(itaee, -all_of(to.rm))
-names(itaee)[1:2] <- c("region", "d_region")
+if(no_regions != 32){
+  to.rm <- ifelse(no_regions == "4", 7, 4)
+  itaee <- select(itaee, -all_of(paste0(c("region_", "d_region_"), to.rm)))
+  names(itaee)[1:2] <- c("region", "d_region")
+} else {
+  to.rm <- c("region_", "d_region_")
+  itaee <- itaee %>% 
+    select(-starts_with(to.rm)) %>% 
+    arrange(date, entidad) %>% 
+    group_by(entidad) %>%
+    mutate(region=cur_group_id(), d_region=entidad, .before=everything()) %>% 
+    ungroup()
+}
 
 # Standardize regions' names
 itaee <- itaee %>% 
@@ -309,10 +318,20 @@ gdp.s <- gdp.s.w
 rm(gdp.s.w, regions2)
 
 # Remove either 4 or 7 regions
-to.rm <- ifelse(no_regions == 4, 7, 4)
-to.rm <- paste0(c("region_", "d_region_"), to.rm)
-gdp.s <- select(gdp.s, -all_of(to.rm))
-names(gdp.s)[1:2] <- c("region", "d_region")
+if(no_regions != 32){
+  to.rm <- ifelse(no_regions == "4", 7, 4)
+  gdp.s <- select(gdp.s, -all_of(paste0(c("region_", "d_region_"), to.rm)))
+  names(gdp.s)[1:2] <- c("region", "d_region")
+} else {
+  to.rm <- c("region_", "d_region_")
+  gdp.s <- gdp.s %>% 
+    select(-starts_with(to.rm)) %>% 
+    arrange(entidad) %>% 
+    group_by(entidad) %>%
+    mutate(region=cur_group_id(), d_region=entidad, .before=everything()) %>% 
+    ungroup()
+}
+
 
 # Standardize regions' names
 gdp.s <- gdp.s %>% 

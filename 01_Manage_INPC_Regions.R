@@ -76,8 +76,18 @@ for( n in names(inpc) ){
 # Reduce list into a data frame by joining its elements
 inpc <- reduce(inpc, full_join, by = c("date", "region")) %>% 
   rename(fecha = date) %>% 
-  arrange(region, fecha) %>% 
-  mutate(region = gsub("cdmx", "area.met.cdmx", region))
+  arrange(region, fecha)
+
+# Homogenize states names
+if(no_regions == 32){
+  inpc$region <- gsub("michoacan.de.ocampo", "michoacan", inpc$region)
+  inpc$region <- gsub("coahuila.de.zaragoza", "coahuila", inpc$region)
+  inpc$region <- gsub("veracruz.de.ignacio.de.la.llave", "veracruz", 
+                             inpc$region)
+  inpc$region <- gsub("mexico", "estado.de.mexico", inpc$region)
+  inpc$region <- str_squish(inpc$region) # remove white space start & end
+  inpc$region <- str_to_title(gsub("\\.", " ", inpc$region))
+}
 
 # Seasonal adjust data (if needed)
 if (sead_adjst) {
@@ -101,6 +111,10 @@ if (sead_adjst) {
   inpc <- do.call(rbind, inpc)
 }
 cat("\n")
+
+# Final touches
+inpc$region <- tolower(gsub(" ", "\\.", inpc$region))
+
 
 
 ## Export INPC to a .csv file --------------------------------------------------
