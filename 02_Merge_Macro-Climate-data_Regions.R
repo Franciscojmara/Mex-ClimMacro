@@ -97,6 +97,13 @@ for(ma.mean0 in ma.means) {
   
   # Merge temperature and precipitation data
   weather <- full_join(tempt, precip, by=c("fecha","year","quartr","season","region"))
+  if(no_regions == 32){
+    weather <- mutate(weather, region = gsub("ciudad.de.meco", "cdmx", weather$region))
+    weather <- mutate(weather, region = gsub("estado.de.meco", "estado.de.mexico", weather$region))
+    weather <- mutate(weather, region = gsub("tlaala", "tlaxcala", weather$region))
+    weather <- mutate(weather, region = gsub("oaca", "oaxaca", weather$region))
+    weather <- mutate(weather, region = gsub("michoaxacan", "michoacan", weather$region))
+  }
   
   #  Manage INPC & ITAEE date
   if (data_freq == "Quarterly") {
@@ -106,24 +113,43 @@ for(ma.mean0 in ma.means) {
     inpc <- mutate(inpc, fecha = as.Date(fecha))
     gdp  <- mutate(gdp, fecha = as.Date(date))
   }
+  gdp  <- mutate(gdp, region = gsub("ciudad.de.mexico", "cdmx", gdp$region))
   
   # Merge and manage
   fulldf <- inpc %>% 
     left_join(gdp, by = c("fecha", "region")) %>%
     left_join(weather,  by = c("fecha", "region")) %>% 
-    select(-fecha) %>% 
-    mutate(
-      region_id = case_when(
-        region == "nacional" ~ 0,
-        region == "area.met.cdmx" ~ 1,
-        region == "centro.norte" ~ 2,
-        region == "centro.sur" ~ 3,
-        region == "frontera.norte" ~ 4,
-        region == "noreste" ~ 5,
-        region == "noroeste" ~ 6,
-        region == "sur" ~ 7
+    select(-fecha)  
+  
+  # Create region id
+  if (no_regions != 32) {
+    fulldf <- fulldf %>% 
+      mutate(
+        region_id = case_when(
+          region == "nacional" ~ 0,
+          region == "area.met.cdmx" ~ 1,
+          region == "centro.norte" ~ 2,
+          region == "centro.sur" ~ 3,
+          region == "frontera.norte" ~ 4,
+          region == "noreste" ~ 5,
+          region == "noroeste" ~ 6,
+          region == "sur" ~ 7
+        )
       )
-    ) %>% 
+  } else {
+    no.nat <- fulldf %>% 
+      filter(region != "nacional") %>% 
+      arrange(region) %>% 
+      group_by(region) %>% 
+      mutate(region_id = cur_group_id(), .before = region)
+    nat <- fulldf %>% 
+      filter(region == "nacional") %>% 
+      mutate(region_id = 0, .before = region)
+    fulldf <- bind_rows(nat, no.nat)
+  }
+  
+  # Final touches
+  fulldf <- fulldf %>% 
     arrange(region_id) %>% 
     select(region_id,region,year,any_of(c("quartr","month")),season,everything()) %>% 
     select(-date)

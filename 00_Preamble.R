@@ -8,21 +8,15 @@
 # Required packages
 packages <- c("dplyr", "tidyr", "lubridate", "stats", "ggplot2", "scales", "stringr",
               "tibble", "purrr", "openxlsx", "stringi", "rlang", "janitor", "zoo",
-              "plm", "car", "lmtest", "ggridges", "viridis", "patchwork", "sf", 
-              "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "seasonal",
-              "jsonlite")
-for(pkg in packages){
-  if(!require(pkg, character.only = TRUE)) { 
-    install.packages(pkg, dependencies=TRUE)
-  }
-  suppressWarnings(library(pkg, character.only = TRUE))
-}
+              "plm", "lmtest", "ggridges", "viridis", "patchwork", "car", "sf", 
+              "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "jsonlite")
+missing <- setdiff(packages, rownames(installed.packages()))
+install.packages(missing, dependencies = TRUE)
 
 # Directories
-mainPath <- dirname(getwd())
-dataPath <- file.path(mainPath, "Data")
-figsPath <- file.path(mainPath, "Figures")
-resuPath <- file.path(mainPath, "Results")
+dataPath <- file.path(getwd(), "Data")
+figsPath <- file.path(getwd(), "Figures")
+resuPath <- file.path(getwd(), "Results")
 
 # Create directories
 dname <- "Data/Preprocessed"

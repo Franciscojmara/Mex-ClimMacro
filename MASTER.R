@@ -13,7 +13,7 @@ end_date   <- "2024-12-01" # INPC end date
 climate_db <- "WorldBank"  # Climate data source: "WorldBank", or "CONAGUA"
 data_freq  <- "Quarterly"  # Frequency of data: "Monthly", or "Quarterly"
 infvar     <- "q"          # monthly (m), quarterly (q), or yearly (y) inflation
-no_regions <- 7            # Number of Mexican regions [4, or 7]
+no_regions <- 07           # Number of Mexican regions [4, 7, or 32]
 sead_adjst <- TRUE         # TRUE to seasonally adjusted INPC/ITAEE data
 center_dta <- FALSE        # Center data distribution?
 weight_dta <- TRUE         # Use population-weighted data?
