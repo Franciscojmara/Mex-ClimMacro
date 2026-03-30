@@ -68,7 +68,7 @@ if (data_freq == "Monthly") {
     select(date, everything()) %>% 
     select(-c(year, quartr))
 }
-
+inpc.clim <- na.omit(inpc.clim)
 
 ## Manage data -- Mexico polygon (and regions)
 
@@ -612,8 +612,9 @@ pdata <- mex.map
 )
 
 # Plot: export
-fname <- paste0("Map-Mexico_", no_regions, "Regions.pdf")
-fpath <- file.path(figsPath, "Maps", fname)
+fpath <- file.path(figsPath, "Maps")
+if(!dir.exists(fpath)) dir.create(fpath, recursive = TRUE)
+fpath <- file.path(fpath, paste0("Map-Mexico_", no_regions, "Regions.pdf"))
 if(no_regions != 32) ggsave(fpath, plot=p1, width=15, height=12, units="cm", dpi=300)
 
 
