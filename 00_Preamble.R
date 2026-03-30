@@ -12,6 +12,7 @@ packages <- c("dplyr", "tidyr", "lubridate", "stats", "ggplot2", "scales", "stri
               "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "jsonlite")
 missing <- setdiff(packages, rownames(installed.packages()))
 install.packages(missing, dependencies = TRUE)
+lapply(packages, library, character.only = TRUE)
 
 # Directories
 dataPath <- file.path(getwd(), "Data")
@@ -28,7 +29,7 @@ if(!dir.exists(resuPath)) dir.create(resuPath, recursive = TRUE)
 if(climate_db == "CONAGUA") ma.means <- 15
 
 # Store hyper-parameters as an RData file to call in the project scripts
-save(mainPath, dataPath, resuPath, figsPath, start_date, end_date, climate_db, 
+save(dataPath, resuPath, figsPath, start_date, end_date, climate_db, 
      data_freq, no_regions, sead_adjst, center_dta, tempdev, ma.means, infvar, 
      IRF.hmax, alpha_LPs, faccia.def, const.data, weight_dta,
      file = "Functions/Hyper-Parameters_Scripts.RData")
