@@ -12,7 +12,7 @@ packages <- c("dplyr", "tidyr", "lubridate", "stats", "ggplot2", "scales", "stri
               "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "jsonlite")
 missing <- setdiff(packages, rownames(installed.packages()))
 install.packages(missing, dependencies = TRUE)
-lapply(packages, library, character.only = TRUE)
+sapply(packages, require, character.only = TRUE)
 
 
 # Directories
