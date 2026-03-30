@@ -295,13 +295,15 @@ initial.setup <- function(data, frequency) {
       mutate(quartr = quartr * 3) %>% # 4th quarter * 3 = 12 month
       mutate(date = as.Date(paste(year, quartr, "01", sep = "-"))) %>% 
       select(date, everything()) %>% 
-      select(-c(year, quartr))
+      select(-c(year, quartr)) %>% 
+      na.omit()
   } else {
     data %>%
       filter(region != "nacional") %>% 
       mutate(date = as.Date(paste(year, month, "01", sep = "-"))) %>% 
       select(date, everything()) %>% 
-      select(-c(year, month))
+      select(-c(year, month)) %>% 
+      na.omit()
   }
 }
 
