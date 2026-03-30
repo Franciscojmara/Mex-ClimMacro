@@ -14,7 +14,7 @@
 
 # ## Preamble --------------------------------------------------------------------
 
-load("Functions/Hyper-Parameters_Scripts.RData")
+load("scripts/Functions/Hyper-Parameters_Scripts.RData")
 inputPath  <- file.path(dataPath, "Raw")
 outputPath <- file.path(dataPath, "Preprocessed")
 cat(" =================================================\n","\n",
@@ -25,9 +25,9 @@ cat(" =================================================\n","\n",
 ## Auxiliary functions ---------------------------------------------------------
 
 # Function to download data
-source("Functions/99_descarga_conagua.R")
-source("Functions/99_descarga_worldbank.R")
-source("Functions/99_utils.R")
+source("scripts/Functions/99_descarga_conagua.R")
+source("scripts/Functions/99_descarga_worldbank.R")
+source("scripts/Functions/99_utils.R")
 
 
 

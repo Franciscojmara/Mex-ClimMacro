@@ -13,7 +13,7 @@
 ## Preamble -----------------------------------------------------------------
 ## ========================================================================== ##
 
-load("Functions/Hyper-Parameters_Scripts.RData")
+load("scripts/Functions/Hyper-Parameters_Scripts.RData")
 cat(" =================================================\n","\n",
     "    DESCRIPTIVE FIGURES: CLIMATE & INFLATION     \n",
     "\n","=================================================\n\n")
@@ -25,10 +25,10 @@ cat(" =================================================\n","\n",
 ## ========================================================================== ##
 
 # Miscellaneous functions
-source("Functions/99_utils.R")
+source("scripts/Functions/99_utils.R")
 
-# Functions for plots
-source("Functions/99_plots.R")
+# For plots
+source("scripts/Functions/99_plots.R")
 
 
 
@@ -209,7 +209,7 @@ sum.table$var    <- factor(sum.table$var, levels = vars)
 sum.table <- sum.table[order(sum.table$var, sum.table$region), ]
 
 # Table: export - Cleaned and formatted table to xlsx/tex formats
-if(no_regions != 32) source("Functions/50_Summary_Tables.R")
+if(no_regions != 32) source("scripts/Functions/50_Summary_Tables.R")
 
 
 

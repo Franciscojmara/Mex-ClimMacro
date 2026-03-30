@@ -12,7 +12,7 @@
 
 ## Preamble --------------------------------------------------------------------
 
-load("Functions/Hyper-Parameters_Scripts.RData")
+load("scripts/Functions/Hyper-Parameters_Scripts.RData")
 cat(" =================================================\n","\n",
     "                MANAGING INPC DATA               \n",
     "\n","=================================================\n\n")
@@ -20,7 +20,7 @@ cat(" =================================================\n","\n",
 
 ## Auxiliary functions ---------------------------------------------------------
 
-source("Functions/99_utils.R")
+source("scripts/Functions/99_utils.R")
 
 
 

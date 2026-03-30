@@ -13,7 +13,7 @@
 ## Preamble -----------------------------------------------------------------
 ## ========================================================================== ##
 
-load("Functions/Hyper-Parameters_Scripts.RData")
+load("scripts/Functions/Hyper-Parameters_Scripts.RData")
 cat(" ===========================================================\n","\n",
     "                       SHORT-RUN EFFECTS                    \n", 
     "             (LOCAL PROJECTIONS - IMPULSE RESPONSES)        \n",
@@ -26,13 +26,13 @@ cat(" ===========================================================\n","\n",
 ## ========================================================================== ##
 
 # Miscellaneous functions
-source("Functions/99_utils.R")
+source("scripts/Functions/99_utils.R")
 
-# Functions for plots
-source("Functions/99_plots.R")
+# For plots
+source("scripts/Functions/99_plots.R")
 
 # Econometrics functions
-source("Functions/99_econometrics.R")
+source("scripts/Functions/99_econometrics.R")
 
 
 
@@ -207,10 +207,10 @@ for(ma.mean in ma.means) {
   save(results_lp, file = fpath)
   
   ## ******* Export cleaned results to excel *******
-  source("Functions/51_IRF-LP_Excel-Tables.R")
+  source("scripts/Functions/51_IRF-LP_Excel-Tables.R")
   
   ## ******* Export cleaned results to LATEX *******
-  if(ma.mean == 30) source("Functions/51_IRF-LP_Latex-Tables.R")
+  if(ma.mean == 30) source("scripts/Functions/51_IRF-LP_Latex-Tables.R")
   
   cat(" ** LP-IRF -- Climate norm:", ma.mean, "years -- Analysis done! \n \n")
   cat("\n++++++++++++++++++++++++++++++++++++++++++++++++++++\n")

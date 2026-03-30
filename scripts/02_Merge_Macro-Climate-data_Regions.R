@@ -17,7 +17,7 @@
 
 ## Preamble --------------------------------------------------------------------
 
-load("Functions/Hyper-Parameters_Scripts.RData")
+load("scripts/Functions/Hyper-Parameters_Scripts.RData")
 inputPath <- file.path(dataPath, "Preprocessed")
 cat(" =================================================\n","\n",
     "       MERGING MACROECONOMIC & CLIMATE DATA      \n",
@@ -28,7 +28,7 @@ cat(" =================================================\n","\n",
 ## Auxiliary functions ---------------------------------------------------------
 
 # Miscellaneous functions
-source("Functions/99_utils.R")
+source("scripts/Functions/99_utils.R")
 
 # Manage date strings
 start_date <- as.Date(start_date)

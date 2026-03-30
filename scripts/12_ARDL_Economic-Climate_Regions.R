@@ -13,7 +13,7 @@
 ## Preamble -----------------------------------------------------------------
 ## ========================================================================== ##
 
-load("Functions/Hyper-Parameters_Scripts.RData")
+load("scripts/Functions/Hyper-Parameters_Scripts.RData")
 cat(" ==========================================================\n","\n",
     "                        LONG-RUN EFFECTS                   \n", 
     "                       (PANEL-ARDL MODEL)                  \n",
@@ -26,10 +26,10 @@ cat(" ==========================================================\n","\n",
 ## ========================================================================== ##
 
 # Miscellaneous functions
-source("Functions/99_utils.R")
+source("scripts/Functions/99_utils.R")
 
 # Econometrics functions
-source("Functions/99_econometrics.R")
+source("scripts/Functions/99_econometrics.R")
 
 
 
@@ -311,11 +311,11 @@ for (ma.mean in ma.means) {
 
 cat(" -------------------------------------------------\n\n")
 cat(" ** ARDL RESULTS INTO XLSX TABLES\n\n")
-source("Functions/52_ARDL_Excel-Tables.R")
+source("scripts/Functions/52_ARDL_Excel-Tables.R")
 
 cat(" -------------------------------------------------\n\n")
 cat(" ** ARDL RESULTS in LATEX TABLES\n\n")
-source("Functions/52_ARDL_Latex-Tables.R")
+source("scripts/Functions/52_ARDL_Latex-Tables.R")
 
 cat(" -------------------------------------------------\n\n")
 cat("\n ** LONG-RUN (ARDL) ANALYSIS DONE!!  \n\n",
