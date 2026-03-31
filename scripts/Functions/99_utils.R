@@ -22,7 +22,7 @@ ajuste_estacional <- function(data, print.window = TRUE){
     #declare time series
     dat <- ts(data[, i], start = start(data), frequency = frequency(data))
     #try to seasonally adjust
-    x_sa <- try(seasonal::final(seas(dat, x11="")), silent = TRUE)
+    x_sa <- try(seasonal::final(seas(dat)), silent = TRUE)
     #actions after `try`
     if ('try-error' %in% class(x_sa)){
       gen_dead[[i]] <- i #just the name of the series that failed to converge

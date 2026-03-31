@@ -15,7 +15,7 @@
 ## ========================================================================== ##
 
 # Open xlsx file with multiple sheets
-source("Functions/99_utils.R")
+source("scripts/Functions/99_utils.R")
 
 # Prepare panel ARDL model to create a TeX table
 prep.ardl.results.tex <- function(mdl.list, no.vars, norm) {

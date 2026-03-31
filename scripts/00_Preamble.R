@@ -5,20 +5,19 @@
 #                           Mexican regions panel                              #
 ## ========================================================================== ##
 
-# Required packages
-packages <- c("dplyr", "tidyr", "lubridate", "stats", "ggplot2", "scales", "stringr",
-              "tibble", "purrr", "openxlsx", "stringi", "rlang", "janitor", "zoo",
-              "plm", "lmtest", "ggridges", "viridis", "patchwork", "car", "sf", 
-              "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "jsonlite")
-missing <- setdiff(packages, rownames(installed.packages()))
-install.packages(missing, dependencies = TRUE)
-sapply(packages, require, character.only = TRUE)
+packages <- c(
+  "dplyr", "tidyr", "lubridate", "stats", "ggplot2", "scales", "stringr",
+  "tibble", "purrr", "openxlsx", "stringi", "rlang", "janitor", "zoo",
+  "plm", "lmtest", "ggridges", "viridis", "patchwork", "car", "sf", 
+  "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "jsonlite"
+)
+invisible(lapply(packages, require, character.only = TRUE))
 
 
 # Directories
 dataPath <- file.path(getwd(), "Data")
-figsPath <- file.path(getwd(), "Figures")
-resuPath <- file.path(getwd(), "Results")
+figsPath <- file.path(getwd(), "Results/Figures")
+resuPath <- file.path(getwd(), "Results/Tables")
 
 # Create directories
 dname <- "Data/Preprocessed"
@@ -54,4 +53,4 @@ if(climate_db == "CONAGUA") ma.means <- 15
 save(dataPath, resuPath, figsPath, start_date, end_date, climate_db, 
      data_freq, no_regions, sead_adjst, center_dta, tempdev, ma.means, infvar, 
      IRF.hmax, alpha_LPs, faccia.def, const.data, weight_dta,
-     file = "Functions/Hyper-Parameters_Scripts.RData")
+     file = "scripts/Functions/Hyper-Parameters_Scripts.RData")

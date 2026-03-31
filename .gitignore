@@ -3,5 +3,6 @@
 *.iqy
 **/Preprocessed
 Misc/
-Figures/
 Results/
+Dockerfile
+.dockerignore
