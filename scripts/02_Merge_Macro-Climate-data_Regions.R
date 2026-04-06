@@ -113,7 +113,6 @@ for(ma.mean0 in ma.means) {
     inpc <- mutate(inpc, fecha = as.Date(fecha))
     gdp  <- mutate(gdp, fecha = as.Date(date))
   }
-  gdp  <- mutate(gdp, region = gsub("ciudad.de.mexico", "cdmx", gdp$region))
   
   # Merge and manage
   fulldf <- inpc %>% 

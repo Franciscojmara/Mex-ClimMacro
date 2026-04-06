@@ -39,7 +39,7 @@ inpc0 <- read.csv(fpath)
 
 ## Manage INPC data (I) --------------------------------------------------------
 
-# Get Food and Non-food indices
+# Get indices
 inpc_vars  <- c("general", "subyacente", "alimentos", "mercnoalim", "servicios",
                 "agropecuarios", "energeticos")
 inpc <- lapply(inpc_vars, function(x){
@@ -87,6 +87,8 @@ if(no_regions == 32){
   inpc$region <- gsub("mexico", "estado.de.mexico", inpc$region)
   inpc$region <- str_squish(inpc$region) # remove white space start & end
   inpc$region <- str_to_title(gsub("\\.", " ", inpc$region))
+} else {
+  inpc$region <- gsub("cdmx", "area.met.cdmx", inpc$region)
 }
 
 # Seasonal adjust data (if needed)
