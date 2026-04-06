@@ -15,14 +15,15 @@ xlsx_multiple_sheets <- function(file) {
 
 #Seasonal adjust
 ajuste_estacional <- function(data, print.window = TRUE){
-  gen_dead <- list()
-  gen_sa <- list()
+  gen_dead <- vector("list", length(colnames(data)))
+  gen_sa   <- vector("list", length(colnames(data)))
+  names(gen_sa) <- names(gen_dead) <- colnames(data)
   for( i in colnames(data) ){
     if( print.window ) print(paste0("Seasonally adjusting: ", i))
     #declare time series
     dat <- ts(data[, i], start = start(data), frequency = frequency(data))
     #try to seasonally adjust
-    x_sa <- try(seasonal::final(seas(dat)), silent = TRUE)
+    x_sa <- try(seasonal::final(seas(dat, x11 = "")), silent = TRUE)
     #actions after `try`
     if ('try-error' %in% class(x_sa)){
       gen_dead[[i]] <- i #just the name of the series that failed to converge

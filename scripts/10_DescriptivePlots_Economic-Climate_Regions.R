@@ -40,7 +40,8 @@ source("scripts/Functions/99_plots.R")
 mname <- ifelse(climate_db == "CONAGUA", 15, 30)
 vname <- ifelse(sead_adjst, "ae-", "-")
 cname <- ifelse(center_dta, "-Centered", "")
-fname <- paste0("INPC", vname, "Climate-", climate_db, "_", data_freq, "_", 
+dname <- toupper(climate_db)
+fname <- paste0("INPC", vname, "Climate-", dname, "_", data_freq, "_", 
                 no_regions, "Regions", cname, ".xlsx")
 fpath <- file.path(dataPath, fname)
 inpc.clim0 <- read.xlsx(fpath, sheet = paste("MA.mean", mname, sep = "-"))
