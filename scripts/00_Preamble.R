@@ -15,9 +15,9 @@ invisible(lapply(packages, require, character.only = TRUE))
 
 
 # Directories
-dataPath <- file.path(getwd(), "Data")
-figsPath <- file.path(getwd(), "Results/Figures")
-resuPath <- file.path(getwd(), "Results/Tables")
+dataPath <- "Data"
+figsPath <- "Results/Figures"
+resuPath <- "Results/Tables"
 
 # Create directories
 dname <- "Data/Preprocessed"
