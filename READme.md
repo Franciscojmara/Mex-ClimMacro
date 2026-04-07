@@ -8,7 +8,7 @@ This repository provides a fully reproducible computational pipeline for the [pa
 
 This project combines **climate data and inflation data** to estimate the impact of weather shocks on inflation using econometric techniques such as **Local Projections (LP)** and **panel ARDL models**.
 
-The workflow is fully containerized using **Docker** and uses **`renv`** to guarantee reproducibility of the R environment.
+The workflow is fully containerized using **Docker** and uses [**`renv`**](https://rstudio-github-io.translate.goog/renv/index.html?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc) to guarantee reproducibility of the R environment.
 
 ---
 
