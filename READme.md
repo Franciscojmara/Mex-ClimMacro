@@ -120,17 +120,7 @@ Open in browser:
 http://localhost:8787
 ```
 
-#### ✅ Behavior (Important)
-
-- RStudio opens directly in the project directory inside the container
-- Only **relevant output folders are mounted**
-- Prevents accidental modification of source code
-- Ideal for:
-  - Exploring results
-  - Exporting tables/figures
-  - Running additional analysis on processed data
-
-#### 🔁 Reproducibility
+### 🔁 Reproducibility
 
 This project guarantees reproducibility through:
 
