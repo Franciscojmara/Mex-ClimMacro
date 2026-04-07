@@ -60,6 +60,9 @@ RUN mkdir -p /home/rstudio/.config/rstudio && \
     > /home/rstudio/.config/rstudio/rstudio-prefs.json && \
     chown -R rstudio:rstudio /home/rstudio/.config
 
+# ---- Enforce RStudio to read .Rprofile ----
+ENV R_PROFILE=/home/rstudio/project/.Rprofile
+
 # ---- Expose RStudio Server port ----
 EXPOSE 8787
 
