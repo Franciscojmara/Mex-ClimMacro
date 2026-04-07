@@ -120,14 +120,6 @@ Open in browser:
 http://localhost:8787
 ```
 
-### 🔁 Reproducibility
-
-This project guarantees reproducibility through:
-
-- **Docker** → system dependencies and OS
-- **renv** → exact R package versions (`renv.lock`)
-- **Deterministic pipeline** → controlled script execution via `MAIN.R`
-
 ### ⚠️ Permission issues (if encountered)
 
 If you see a "Permission denied" error when writing outputs, run:
@@ -135,6 +127,14 @@ If you see a "Permission denied" error when writing outputs, run:
 ```bash
 sudo chown -R $USER:$USER Data Results
 ```
+
+### 🔁 Reproducibility
+
+This project guarantees reproducibility through:
+
+- **Docker** → system dependencies and OS
+- **renv** → exact R package versions (`renv.lock`)
+- **Deterministic pipeline** → controlled script execution via `MAIN.R`
 
 ---
 
