@@ -1,6 +1,7 @@
 # ---- renv (CRITICAL) ----
-renv/library/
-renv/staging/
+renv/library
+renv/staging
+renv/cache
 
 # ---- RStudio / session files ----
 .Rhistory
