@@ -71,7 +71,9 @@ docker build -t mexclim .
 
 ```bash
 docker run --rm \
-  -v $(pwd):/home/rstudio/project \
+  -v $(pwd)/Data/Preprocessed:/home/rstudio/project/Data/Preprocessed \
+  -v $(pwd)/Results/Tables:/home/rstudio/project/Results/Tables \
+  -v $(pwd)/Results/Figures:/home/rstudio/project/Results/Figures \
   mexclim \
   Rscript MAIN.R
 ```
@@ -81,6 +83,22 @@ docker run --rm \
 - Tables → `Results/Tables/`
 - Figures → `Results/Figures/`
 - Processed data → `Data/Preprocessed/`
+
+---
+
+## 📁 Output Directories (Important)
+
+The following directories must exist locally for Docker volume mounting:
+
+- `Data/Preprocessed/`
+- `Results/Tables/`
+- `Results/Figures/`
+
+They can be created with:
+
+```bash
+mkdir -p Data/Preprocessed Results/Tables Results/Figures
+```
 
 ---
 
@@ -108,7 +126,6 @@ Open in browser:
 ```
 http://localhost:8787
 ```
-
 ---
 
 ### ✅ Behavior (Important)

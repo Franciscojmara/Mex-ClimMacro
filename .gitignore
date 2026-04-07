@@ -1,10 +1,8 @@
 
-# Miscellaneous
-.git
-.gitignore
-*.iqy
-**/Preprocessed
-Results/
+# Generated outputs
+Data/Preprocessed/
+Results/Tables/
+Results/Figures/
 
 # renv (DO NOT TRACK)
 renv/library
@@ -14,3 +12,8 @@ renv/staging
 # R session
 .Rhistory
 .RData
+
+# Miscellaneous
+.git
+.gitignore
+*.iqy

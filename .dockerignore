@@ -23,9 +23,5 @@ Thumbs.db
 *.tmp
 *.swp
 
-# ---- Output folders (optional, but recommended) ----
-Results/
-Data/Preprocessed/
-
 # ---- Extra
 0.*
