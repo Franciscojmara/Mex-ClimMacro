@@ -1,10 +1,13 @@
 
-# Generated outputs
-Data/Preprocessed/
-Results/Tables/
-Results/Figures/
+## Generated outputs
+# Results 
+Results/*
+!Results/.gitkeep
+# Data/Preprocessed
+Data/Preprocessed/*
+!Data/Preprocessed/.gitkeep
 
-# renv (DO NOT TRACK)
+## Renv
 renv/library
 renv/cache
 renv/staging
