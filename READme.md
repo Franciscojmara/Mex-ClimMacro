@@ -1,6 +1,6 @@
-# Reproducible Pipeline for *The Effect of Weather Effects on Inflation*
+# Pipeline for *The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico*
 
-This repository provides a fully reproducible computational pipeline for the paper:
+This repository provides a fully reproducible computational pipeline for the [paper](https://arxiv.org/pdf/2507.14420):
 
 > **The Effect of Weather Effects on Inflation**  
 > Lenin Arango-Castillo (Bank of Mexico)  
