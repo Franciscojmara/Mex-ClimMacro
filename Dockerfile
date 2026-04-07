@@ -1,6 +1,15 @@
 FROM rocker/rstudio:4.5.3@sha256:8db0c9a28c6f7a74d98c3df5f93133e981ad6f0287d7973332932c5601997b60
 
-# ---- System dependencies (sf, tidyverse, etc.) ----
+# --- UID/GID alignment (for mounting) ---
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+RUN groupmod -g ${GROUP_ID} rstudio && \
+    usermod -u ${USER_ID} -g ${GROUP_ID} rstudio && \
+    mkdir -p /home/rstudio/project && \
+    chown -R rstudio:rstudio /home/rstudio
+
+# ---- System dependencies ----
 RUN apt-get update && apt-get install -y \
     curl \
     build-essential \

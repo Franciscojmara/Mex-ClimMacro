@@ -18,17 +18,20 @@ The workflow is fully containerized using **Docker** and uses **`renv`** to guar
 .
 ├── MAIN.R
 ├── scripts/
-│   ├── 00_Preamble.R
 │   ├── Functions/
-│   ├── 01_*.R
-│   ├── 02_*.R
-│   ├── 10_*.R
-│   ├── 11_*.R
-│   └── 12_*.R
+│   ├── 00_Preamble.R
+│   ├── 01_Manage_Climate_Regions.R
+│   ├── 01_Manage_INPC_Regions.R
+│   ├── 01_Manage_ITAEE-GDP_Regions.R
+│   ├── 02_Merge_Macro-Climate-data_Regions.R
+│   ├── 10_DescriptivePlots_Economic-Climate_Regions.R
+│   ├── 11_IRF-LP_Economic-Climate_Regions.R
+│   └── 12_ARDL_Economic-Climate_Regions.R
 ├── Data/
 │   ├── Raw/
 │   │   ├── Climate/
 │   │   ├── Inflation/
+│   │   ├── Economic_Activity/
 │   │   └── Helpers/
 │   └── Preprocessed/
 ├── Results/
@@ -42,24 +45,42 @@ The workflow is fully containerized using **Docker** and uses **`renv`** to guar
 
 ---
 
-## ⚙️ Requirements
+# 🚀 Setup
 
-- Docker (>= 20.x)
-
----
-
-## 🚀 Setup
-
-### 1. Clone the repository
+## 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/yourrepo.git
-cd yourrepo
+git clone https://github.com/Franciscojmara/Mex-ClimMacro
+cd Mex-ClimMacro
 ```
 
----
+### 📁 Outputs
 
-### 2. Build the Docker image
+Inside the image, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories.
+
+- Tables → `Results/Tables/`
+- Figures → `Results/Figures/`
+- Processed data → `Data/Preprocessed/`
+
+The directories must also exist locally for Docker volume mounting, that is, to get the paper results locally and not only inside the container. They can be created with:
+
+```bash
+mkdir -p Data/Preprocessed Results/Tables Results/Figures
+```
+
+## 2. Build the Docker image
+
+```bash
+docker build \
+  --build-arg USER_ID=$(id -u) \
+  --build-arg GROUP_ID=$(id -g) \
+  -t mexclim .
+```
+
+Using the ---build-arg, ensures that the container has the permissions to write files in the host machine (only if mounting directories). The files that the programs will export are the paper's tables and figures.
+
+#### ⚠️ Important caveat
+This works on Linux / WSL / macOS. On Windows (non-WSL), $(id -u) won’t work, so you can fallback to:
 
 ```bash
 docker build -t mexclim .
@@ -67,7 +88,9 @@ docker build -t mexclim .
 
 ---
 
-## ▶️ Run the Full Pipeline (Batch Mode)
+## 3. Run the Full Pipeline
+
+### ▶️ Batch Mode
 
 ```bash
 docker run --rm \
@@ -78,41 +101,13 @@ docker run --rm \
   Rscript MAIN.R
 ```
 
-### Outputs
+### 💻 Interactive Mode (RStudio)
 
-- Tables → `Results/Tables/`
-- Figures → `Results/Figures/`
-- Processed data → `Data/Preprocessed/`
-
----
-
-## 📁 Output Directories (Important)
-
-The following directories must exist locally for Docker volume mounting:
-
-- `Data/Preprocessed/`
-- `Results/Tables/`
-- `Results/Figures/`
-
-They can be created with:
+This mode is designed for **inspection and interaction with outputs**. An RStudio session will be opened on port 8787. Modify the command acordignly if said port is busy.
 
 ```bash
-mkdir -p Data/Preprocessed Results/Tables Results/Figures
-```
-
----
-
-## 💻 Interactive Mode (RStudio)
-
-This mode is designed for **inspection and interaction with outputs**, without requiring the full repository to be mounted.
-
-Only the directories that **store outputs and processed data** are mounted:
-
-```bash
-docker rm -f mexclimacro-rstudio 2>/dev/null
-
 docker run -d \
-  --name mexclimacro-rstudio \
+  --name mexclim-rstudio \
   -p 8787:8787 \
   -e DISABLE_AUTH=true \
   -v $(pwd)/Data/Preprocessed:/home/rstudio/project/Data/Preprocessed \
@@ -126,9 +121,8 @@ Open in browser:
 ```
 http://localhost:8787
 ```
----
 
-### ✅ Behavior (Important)
+#### ✅ Behavior (Important)
 
 - RStudio opens directly in the project directory inside the container
 - Only **relevant output folders are mounted**
@@ -138,9 +132,7 @@ http://localhost:8787
   - Exporting tables/figures
   - Running additional analysis on processed data
 
----
-
-## 🔁 Reproducibility
+#### 🔁 Reproducibility
 
 This project guarantees reproducibility through:
 
@@ -150,11 +142,9 @@ This project guarantees reproducibility through:
 
 ---
 
-## 📂 Data
+# 📂 Data
 
-### Raw Data Sources
-
-#### Climate Data
+### Climate Data
 - Source: Climate Research Unit (CRU), University of East Anglia (via World Bank)
 - Coverage: 1901–2024  
 - Location:
@@ -162,14 +152,14 @@ This project guarantees reproducibility through:
   Data/Raw/Climate/
   ```
 
-#### Inflation Data
+### Inflation Data
 - Source: INEGI (Consumer Price Index components)
 - Location:
   ```
   Data/Raw/Inflation/
   ```
 
-#### Auxiliary Data
+### Auxiliary Data
 - Regional classification of Mexican states/cities
 - Used to compute population-weighted regional aggregates  
 - Location:
@@ -181,15 +171,13 @@ This project guarantees reproducibility through:
 
 ---
 
-## 🧠 Pipeline Overview
+# 🧠 Pipeline Overview
 
 The pipeline is orchestrated by:
 
 ```
 MAIN.R
 ```
-
----
 
 ## ⚙️ Preamble and Global Configuration
 
@@ -233,7 +221,7 @@ Results/
 
 ---
 
-## 📬 Contact
+# 📬 Contact
 
 Lenin Arango-Castillo – larangoc@banxico.org.mx  
 Francisco J. Martínez-Ramírez – franciscomr@banxico.org.mx  
