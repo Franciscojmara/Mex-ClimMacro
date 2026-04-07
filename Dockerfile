@@ -27,28 +27,31 @@ RUN apt-get update && apt-get install -y \
     libabsl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- Install renv ----
-RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
+# ---- Disable renv external librarues ----
+ENV RENV_CONFIG_EXTERNAL_LIBRARIES=FALSE
 
 # ---- Set working directory inside container ----
 WORKDIR /home/rstudio/project
 
+# ---- Install renv ----
+RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
+
 # ---- Copy renv.lock ----
 COPY renv.lock renv.lock
+COPY renv/ renv/
 
 # ---- Restore R environment ----
-# Restore environment BEFORE copying rest of project
-RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')" && \
-    R -e "options(repos = c(CRAN='https://cloud.r-project.org')); renv::restore(prompt = FALSE)"
+RUN R -e "renv::consent(provided = TRUE); \
+          renv::activate(); \
+          .libPaths(renv::paths$library()); \
+          options(repos = c(CRAN='https://cloud.r-project.org')); \
+          renv::restore(prompt = FALSE)"
 
 # ---- Copy full project (Scripts/, Data/, MAIN.R, etc.) ----
 COPY . .
 
 # ----- Fix Permissions -----
 RUN chown -R rstudio:rstudio /home/rstudio/project
-
-# ---- Disable renv cache ----
-ENV RENV_CONFIG_CACHE_ENABLED=FALSE
 
 # ---- Configure RStudio to start in project directory ----
 RUN mkdir -p /home/rstudio/.config/rstudio && \
