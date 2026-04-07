@@ -1,10 +1,14 @@
-# Reproducible Pipeline for [Paper Title]
+# Reproducible Pipeline for *The Effect of Weather Effects on Inflation*
 
 This repository provides a fully reproducible computational pipeline for the paper:
 
-> **[Insert Paper Title Here]**
+> **The Effect of Weather Effects on Inflation**  
+> Lenin Arango-Castillo (Bank of Mexico)  
+> Francisco J. Martínez-Ramírez (Bank of Mexico)
 
-The workflow is containerized using Docker to ensure full reproducibility of the computational environment.
+This project combines **climate data and inflation data** to estimate the impact of weather shocks on inflation using econometric techniques such as **Local Projections (LP)** and **panel ARDL models**.
+
+The workflow is fully containerized using **Docker** and uses **`renv`** to guarantee reproducibility of the R environment.
 
 ---
 
@@ -14,8 +18,18 @@ The workflow is containerized using Docker to ensure full reproducibility of the
 .
 ├── MAIN.R
 ├── scripts/
+│   ├── 00_Preamble.R
+│   ├── Functions/
+│   ├── 01_*.R
+│   ├── 02_*.R
+│   ├── 10_*.R
+│   ├── 11_*.R
+│   └── 12_*.R
 ├── Data/
 │   ├── Raw/
+│   │   ├── Climate/
+│   │   ├── Inflation/
+│   │   └── Helpers/
 │   └── Preprocessed/
 ├── Results/
 │   ├── Figures/
@@ -72,7 +86,9 @@ docker run --rm \
 
 ## 💻 Interactive Mode (RStudio)
 
-Launch an RStudio session:
+This mode is designed for **inspection and interaction with outputs**, without requiring the full repository to be mounted.
+
+Only the directories that **store outputs and processed data** are mounted:
 
 ```bash
 docker rm -f mexclimacro-rstudio 2>/dev/null
@@ -80,83 +96,127 @@ docker rm -f mexclimacro-rstudio 2>/dev/null
 docker run -d \
   --name mexclimacro-rstudio \
   -p 8787:8787 \
-  -e PASSWORD=yourpassword \
-  -v $(pwd):/home/rstudio/project \
+  -e DISABLE_AUTH=true \
+  -v $(pwd)/Data/Preprocessed:/home/rstudio/project/Data/Preprocessed \
+  -v $(pwd)/Results/Tables:/home/rstudio/project/Results/Tables \
+  -v $(pwd)/Results/Figures:/home/rstudio/project/Results/Figures \
   mexclim
 ```
 
-Then open:
+Open in browser:
 
 ```
 http://localhost:8787
 ```
 
-### Login
-
-- Username: `rstudio`
-- Password: `yourpassword`
-
 ---
 
 ### ✅ Behavior (Important)
 
-- RStudio **automatically opens in the project directory**
-- No manual navigation required
-- Files pane and working directory are correctly initialized
-- This behavior is **baked into the Docker image**
-
----
-
-### ⚠️ Note on Implementation
-
-The working directory is configured via RStudio preferences inside the container, ensuring:
-
-- Consistent behavior across systems
-- No reliance on `.Rprofile`, environment variables, or manual setup
-- Fully reproducible interactive sessions
-
----
-
-## 🛑 Stopping the session
-
-```bash
-docker stop mexclimacro-rstudio
-docker rm mexclimacro-rstudio
-```
+- RStudio opens directly in the project directory inside the container
+- Only **relevant output folders are mounted**
+- Prevents accidental modification of source code
+- Ideal for:
+  - Exploring results
+  - Exporting tables/figures
+  - Running additional analysis on processed data
 
 ---
 
 ## 🔁 Reproducibility
 
-This project ensures reproducibility via:
+This project guarantees reproducibility through:
 
 - **Docker** → system dependencies and OS
 - **renv** → exact R package versions (`renv.lock`)
-- **Structured pipeline** → deterministic execution
+- **Deterministic pipeline** → controlled script execution via `MAIN.R`
 
 ---
 
 ## 📂 Data
 
-- `Data/Raw/`: input data (must be provided manually if not included)
-- `Data/Preprocessed/`: generated during execution
+### Raw Data Sources
+
+#### Climate Data
+- Source: Climate Research Unit (CRU), University of East Anglia (via World Bank)
+- Coverage: 1901–2024  
+- Location:
+  ```
+  Data/Raw/Climate/
+  ```
+
+#### Inflation Data
+- Source: INEGI (Consumer Price Index components)
+- Location:
+  ```
+  Data/Raw/Inflation/
+  ```
+
+#### Auxiliary Data
+- Regional classification of Mexican states/cities
+- Used to compute population-weighted regional aggregates  
+- Location:
+  ```
+  Data/Raw/Helpers/
+  ```
+
+> ⚠️ Raw data may need to be manually provided depending on repository distribution.
 
 ---
 
-## 🧠 Pipeline
+## 🧠 Pipeline Overview
 
-`MAIN.R` orchestrates execution by calling scripts in `scripts/`.
+The pipeline is orchestrated by:
 
-Each script is:
+```
+MAIN.R
+```
 
-- modular
-- idempotent
-- reproducible
+---
+
+## ⚙️ Preamble and Global Configuration
+
+The file:
+
+```
+scripts/00_Preamble.R
+```
+
+is executed at the beginning of the pipeline and is central to reproducibility and consistency.
+
+It performs the following tasks:
+
+- Loads all required R packages
+- Defines global paths used across scripts
+- Creates necessary directories if they do not exist:
+  - `Data/Preprocessed/`
+  - `Results/Tables/`
+  - `Results/Figures/`
+- Defines and stores hyperparameters used in:
+  - Data construction
+  - Model estimation
+
+---
+
+## 📊 Econometric Analysis
+
+Main scripts:
+
+- `10_DescriptivePlots_Economic-Climate_Regions.R`
+- `11_IRF-LP_Economic-Climate_Regions.R`
+- `12_ARDL_Economic-Climate_Regions.R`
+
+Outputs are automatically saved in:
+
+```
+Results/
+├── Tables/
+└── Figures/
+```
 
 ---
 
 ## 📬 Contact
 
-[Your Name]  
-[Your Institution]  
-[Your Email]
+Lenin Arango-Castillo – larangoc@banxico.org.mx  
+Francisco J. Martínez-Ramírez – franciscomr@banxico.org.mx  
