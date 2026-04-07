@@ -62,11 +62,6 @@ Inside the image, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf`
 - Figures → `Results/Figures/`
 - Processed data → `Data/Preprocessed/`
 
-The directories must also exist locally for Docker volume mounting, that is, to get the paper results locally and not only inside the container. They can be created with:
-
-```bash
-mkdir -p Data/Preprocessed Results
-```
 
 ## 2. Build the Docker image
 
