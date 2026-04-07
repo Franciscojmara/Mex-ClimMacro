@@ -27,9 +27,6 @@ RUN apt-get update && apt-get install -y \
     libabsl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- Disable renv external librarues ----
-ENV RENV_CONFIG_EXTERNAL_LIBRARIES=FALSE
-
 # ---- Set working directory inside container ----
 WORKDIR /home/rstudio/project
 
@@ -41,8 +38,9 @@ COPY renv.lock renv.lock
 COPY renv/ renv/
 
 # ---- Restore R environment ----
-RUN R -e "renv::consent(provided = TRUE); \
-          renv::activate(); \
+RUN R -e "setwd('/home/rstudio/project'); \
+          renv::consent(provided = TRUE); \
+          renv::load(); \
           options(repos = c(CRAN='https://cloud.r-project.org')); \
           renv::restore(prompt = FALSE)"
 
