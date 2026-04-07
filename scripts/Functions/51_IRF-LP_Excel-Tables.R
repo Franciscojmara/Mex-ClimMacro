@@ -14,7 +14,7 @@
 ## Manage LP-IRF results -------------------------------------------------------
 
 # Remove from list plotted variables: "TemperatureDev" and "PrecipitationDev"
-options(scipen = 99999)
+options(scipen = 9999)
 lps0 <- results_lp
 lps0[c("TempDev", "PrecipDev")] <- NULL
 

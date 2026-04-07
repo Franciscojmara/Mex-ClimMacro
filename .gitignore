@@ -1,8 +1,16 @@
+
+# Miscellaneous
 .git
 .gitignore
-**/0\.*
 *.iqy
 **/Preprocessed
-Misc/
 Results/
-renv/library/
+
+# renv (DO NOT TRACK)
+renv/library
+renv/cache
+renv/staging
+
+# R session
+.Rhistory
+.RData
