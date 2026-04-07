@@ -1,0 +1,30 @@
+# ---- renv (CRITICAL) ----
+renv/library/
+renv/staging/
+
+# ---- RStudio / session files ----
+.Rhistory
+.RData
+.Rproj.user/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Git ----
+.git
+.gitignore
+
+# ---- Logs / temp ----
+*.log
+*.tmp
+*.swp
+
+# ---- Output folders (optional, but recommended) ----
+Results/
+Data/Preprocessed/
+
+# ---- Extra
+0.*

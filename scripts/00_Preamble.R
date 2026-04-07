@@ -5,19 +5,44 @@
 #                           Mexican regions panel                              #
 ## ========================================================================== ##
 
-packages <- c(
-  "dplyr", "tidyr", "lubridate", "stats", "ggplot2", "scales", "stringr",
-  "tibble", "purrr", "openxlsx", "stringi", "rlang", "janitor", "zoo",
-  "plm", "lmtest", "ggridges", "viridis", "patchwork", "car", "sf", 
-  "latex2exp", "xtable", "seasonal", "pdftools", "readxl", "jsonlite"
-)
-invisible(lapply(packages, require, character.only = TRUE))
+if (!"renv" %in% loadedNamespaces()) {
+  source("renv/activate.R")
+}
+
+# Load packages
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(ggplot2)
+library(scales)
+library(stringr)
+library(tibble)
+library(purrr)
+library(openxlsx)
+library(stringi)
+library(rlang)
+library(janitor)
+library(zoo)
+library(plm)
+library(lmtest)
+library(ggridges)
+library(viridis)
+library(patchwork)
+library(car)
+library(sf)
+library(latex2exp)
+library(xtable)
+library(seasonal)
+library(pdftools)
+library(readxl)
+library(jsonlite)
 
 
 # Directories
 dataPath <- "Data"
 figsPath <- "Results/Figures"
 resuPath <- "Results/Tables"
+
 
 # Create directories
 dname <- "Data/Preprocessed"
