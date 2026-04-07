@@ -2,7 +2,7 @@
 
 This repository provides a fully reproducible computational pipeline for the [paper](https://arxiv.org/pdf/2507.14420):
 
-> **The Effect of Weather Effects on Inflation**  
+> **The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico**  
 > Lenin Arango-Castillo (Bank of Mexico)  
 > Francisco J. Martínez-Ramírez (Bank of Mexico)
 
