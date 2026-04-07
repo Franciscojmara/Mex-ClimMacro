@@ -27,6 +27,10 @@ RUN apt-get update && apt-get install -y \
     libabsl-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# ---- renv configuration ----
+ENV RENV_CONFIG_SYMLINKS=FALSE
+ENV RENV_CONFIG_CACHE_ENABLED=FALSE
+
 # ---- Set working directory inside container ----
 WORKDIR /home/rstudio/project
 
