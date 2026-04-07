@@ -94,9 +94,8 @@ docker build -t mexclim .
 
 ```bash
 docker run --rm \
-  -v $(pwd)/Data/Preprocessed:/home/rstudio/project/Data/Preprocessed \
-  -v $(pwd)/Results/Tables:/home/rstudio/project/Results/Tables \
-  -v $(pwd)/Results/Figures:/home/rstudio/project/Results/Figures \
+  -v $(pwd)/Data:/home/rstudio/project/Data \
+  -v $(pwd)/Results:/home/rstudio/project/Results \
   mexclim \
   Rscript MAIN.R
 ```
@@ -110,9 +109,8 @@ docker run -d \
   --name mexclim-rstudio \
   -p 8787:8787 \
   -e DISABLE_AUTH=true \
-  -v $(pwd)/Data/Preprocessed:/home/rstudio/project/Data/Preprocessed \
-  -v $(pwd)/Results/Tables:/home/rstudio/project/Results/Tables \
-  -v $(pwd)/Results/Figures:/home/rstudio/project/Results/Figures \
+  -v $(pwd)/Data:/home/rstudio/project/Data \
+  -v $(pwd)/Results:/home/rstudio/project/Results \
   mexclim
 ```
 
@@ -139,6 +137,14 @@ This project guarantees reproducibility through:
 - **Docker** → system dependencies and OS
 - **renv** → exact R package versions (`renv.lock`)
 - **Deterministic pipeline** → controlled script execution via `MAIN.R`
+
+### ⚠️ Permission issues (if encountered)
+
+If you see a "Permission denied" error when writing outputs, run:
+
+```bash
+sudo chown -R $USER:$USER Data Results
+```
 
 ---
 
