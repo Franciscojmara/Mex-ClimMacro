@@ -43,7 +43,6 @@ COPY renv/ renv/
 # ---- Restore R environment ----
 RUN R -e "renv::consent(provided = TRUE); \
           renv::activate(); \
-          .libPaths(renv::paths$library()); \
           options(repos = c(CRAN='https://cloud.r-project.org')); \
           renv::restore(prompt = FALSE)"
 
