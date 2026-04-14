@@ -1,4 +1,4 @@
-# Pipeline for *The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico*
+# Reproducibility package for *The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico*
 
 This repository provides a fully reproducible computational pipeline for the [paper](https://arxiv.org/pdf/2507.14420):
 
