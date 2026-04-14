@@ -54,6 +54,26 @@ git clone https://github.com/Franciscojmara/Mex-ClimMacro
 cd Mex-ClimMacro
 ```
 
+### Github authentication (PAT or SSH)
+
+To clone this repository, you’ll need to authenticate with GitHub using either a Personal Access Token (PAT) or an SSH key.
+
+#### Option 1 (recommended): Personal Access Token (HTTPS)
+1. Generate a PAT in GitHub (**Settings → Developer settings → Personal access tokens**).
+2. Use your GitHub username and the PAT as your password when cloning via HTTPS.
+3. (Optional) Configure a credential helper to store it securely.
+
+Full guide: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+---
+
+#### Option 2: SSH Key
+1. Generate an SSH key (`ssh-keygen`) and add it to your SSH agent.
+2. Add the public key to your GitHub account (**Settings → SSH and GPG keys**).
+3. Clone using the SSH URL (`git@github.com:...`).
+
+Full guide: https://docs.github.com/en/authentication/connecting-to-github-with-ssh
+
 ### 📁 Outputs
 
 Inside the image, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories.
@@ -194,9 +214,25 @@ It performs the following tasks:
 
 ---
 
-## 📊 Econometric Analysis
+## 📊 Data construction
 
-Main scripts:
+After cloning the repository, the raw data files are downloaded so you can construct the main data set from the beginning. Regardless, the main data set is still included in the repo. Although the raw climate data is also downloaded when cloning the repo, the pipeline still connects to the World Bank API and downloads the data. The macroeconomic data is only loaded on the scripts, there is no downloading step. 
+
+The scripts that construct the main data set are those numbered "01" and "02" inside the `scripts/` directory:
+
+- `01_Manage_Climate_Regions.R`
+- `01_Manage_INPC_Regions.R`
+- `01_Manage_ITAEE-GDP_Regions.R`
+- `02_Merge_Macro-Climate-data_Regions.R`
+
+The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
+
+
+## 📊 Descriptive & Econometric Analysis
+
+The econometric analysis is done using the data set generated in the `02_Merge_Macro-Climate-data_Regions.R` script. The descriptive analysis is done in the script that starts with "10", while the econometric analysis: local-projections and the ARDL model are done in scripts "11" and "12", respectively. As in the data construction pipeline, some specifications for the analysis can be changed from the preamble script.
+
+The scripts used in the analysis are:
 
 - `10_DescriptivePlots_Economic-Climate_Regions.R`
 - `11_IRF-LP_Economic-Climate_Regions.R`
