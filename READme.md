@@ -12,7 +12,7 @@ The workflow is fully containerized using **Docker** and uses [**`renv`**](https
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 .
@@ -45,7 +45,7 @@ The workflow is fully containerized using **Docker** and uses [**`renv`**](https
 
 ---
 
-# 🚀 Setup
+# Setup
 
 ## 1. Clone the repository
 
@@ -74,13 +74,13 @@ Full guide: https://docs.github.com/en/authentication/keeping-your-account-and-d
 
 Full guide: https://docs.github.com/en/authentication/connecting-to-github-with-ssh
 
-### 📁 Outputs
+### Outputs
 
 Inside the image, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories.
 
-- Tables → `Results/Tables/`
-- Figures → `Results/Figures/`
-- Processed data → `Data/Preprocessed/`
+- Tables: `Results/Tables/`
+- Figures: `Results/Figures/`
+- Processed data: `Data/Preprocessed/`
 
 
 ## 2. Build the Docker image
@@ -94,7 +94,7 @@ docker build \
 
 Using the ---build-arg, ensures that the container has the permissions to write files in the host machine (only if mounting directories). The files that the programs will export are the paper's tables and figures.
 
-#### ⚠️ Important caveat
+#### IMPORTANT caveat
 This works on Linux / WSL / macOS. On Windows (non-WSL), $(id -u) won’t work, so you can fallback to:
 
 ```bash
@@ -117,7 +117,7 @@ docker run --rm \
 
 ### 💻 Interactive Mode (RStudio)
 
-This mode is designed for **inspection and interaction with outputs**. An RStudio session will be opened on port 8787. Modify the command acordignly if said port is busy.
+This mode is designed for **inspection and interaction with outputs**. An RStudio session will be launched on port 8787. Modify the command acordignly if said port is busy.
 
 ```bash
 docker run -d \
@@ -135,7 +135,7 @@ Open in browser:
 http://localhost:8787
 ```
 
-### ⚠️ Permission issues (if encountered)
+### Permission issues (if encountered)
 
 If you see a "Permission denied" error when writing outputs, run:
 
@@ -143,7 +143,7 @@ If you see a "Permission denied" error when writing outputs, run:
 sudo chown -R $USER:$USER Data Results
 ```
 
-### 🔁 Reproducibility
+### Reproducibility
 
 This project guarantees reproducibility through:
 
@@ -153,36 +153,29 @@ This project guarantees reproducibility through:
 
 ---
 
-# 📂 Data
+# Raw Data
+
+The repository contains the raw data files needed to construct the main data set. Below, there is a brief description of the type of data and its source, along with the location of the files within the repository.
 
 ### Climate Data
 - Source: Climate Research Unit (CRU), University of East Anglia (via World Bank)
 - Coverage: 1901–2024  
-- Location:
-  ```
-  Data/Raw/Climate/
-  ```
-
+- Location: `Data/Raw/Climate/`
+ 
 ### Inflation Data
 - Source: INEGI (Consumer Price Index components)
-- Location:
-  ```
-  Data/Raw/Inflation/
-  ```
+- Location: `Data/Raw/Inflation/`
 
 ### Auxiliary Data
 - Regional classification of Mexican states/cities
 - Used to compute population-weighted regional aggregates  
-- Location:
-  ```
-  Data/Raw/Helpers/
-  ```
+- Location: `Data/Raw/Helpers/`
 
-> ⚠️ Raw data may need to be manually provided depending on repository distribution.
+> IMPORTANT: Raw data may need to be manually provided depending on repository distribution.
 
 ---
 
-# 🧠 Pipeline Overview
+#  Pipeline Overview
 
 The pipeline is orchestrated by:
 
@@ -190,7 +183,7 @@ The pipeline is orchestrated by:
 MAIN.R
 ```
 
-## ⚙️ Preamble and Global Configuration
+## Preamble and Global Configuration
 
 The file:
 
@@ -214,7 +207,7 @@ It performs the following tasks:
 
 ---
 
-## 📊 Data construction
+## Data construction
 
 After cloning the repository, the raw data files are downloaded so you can construct the main data set from the beginning. Regardless, the main data set is still included in the repo. Although the raw climate data is also downloaded when cloning the repo, the pipeline still connects to the World Bank API and downloads the data. The macroeconomic data is only loaded on the scripts, there is no downloading step. 
 
@@ -228,7 +221,7 @@ The scripts that construct the main data set are those numbered "01" and "02" in
 The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
 
 
-## 📊 Descriptive & Econometric Analysis
+## Descriptive & Econometric Analysis
 
 The econometric analysis is done using the data set generated in the `02_Merge_Macro-Climate-data_Regions.R` script. The descriptive analysis is done in the script that starts with "10", while the econometric analysis: local-projections and the ARDL model are done in scripts "11" and "12", respectively. As in the data construction pipeline, some specifications for the analysis can be changed from the preamble script.
 
