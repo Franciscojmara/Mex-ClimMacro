@@ -147,9 +147,9 @@ sudo chown -R $USER:$USER Data Results
 
 This project guarantees reproducibility through:
 
-- **Docker** → system dependencies and OS
-- **renv** → exact R package versions (`renv.lock`)
-- **Deterministic pipeline** → controlled script execution via `MAIN.R`
+- **Docker**: system dependencies and OS
+- **renv**: exact R package versions (`renv.lock`)
+- **Deterministic pipeline**: controlled script execution via `MAIN.R`
 
 ---
 
@@ -157,16 +157,16 @@ This project guarantees reproducibility through:
 
 The repository contains the raw data files needed to construct the main data set. Below, there is a brief description of the type of data and its source, along with the location of the files within the repository.
 
-### Climate Data
+### a) Climate Data
 - Source: Climate Research Unit (CRU), University of East Anglia (via World Bank)
 - Coverage: 1901–2024  
 - Location: `Data/Raw/Climate/`
  
-### Inflation Data
+### b) Inflation Data
 - Source: INEGI (Consumer Price Index components)
 - Location: `Data/Raw/Inflation/`
 
-### Auxiliary Data
+### c) Auxiliary Data
 - Regional classification of Mexican states/cities
 - Used to compute population-weighted regional aggregates  
 - Location: `Data/Raw/Helpers/`
@@ -183,17 +183,9 @@ The pipeline is orchestrated by:
 MAIN.R
 ```
 
-## Preamble and Global Configuration
+## a) Preamble and Global Configuration
 
-The file:
-
-```
-scripts/00_Preamble.R
-```
-
-is executed at the beginning of the pipeline and is central to reproducibility and consistency.
-
-It performs the following tasks:
+The file `scripts/00_Preamble.R` is executed at the beginning of the pipeline and is central to reproducibility and consistency. It performs the following tasks:
 
 - Loads all required R packages
 - Defines global paths used across scripts
@@ -207,7 +199,7 @@ It performs the following tasks:
 
 ---
 
-## Data construction
+## b) Data construction
 
 After cloning the repository, the raw data files are downloaded so you can construct the main data set from the beginning. Regardless, the main data set is still included in the repo. Although the raw climate data is also downloaded when cloning the repo, the pipeline still connects to the World Bank API and downloads the data. The macroeconomic data is only loaded on the scripts, there is no downloading step. 
 
@@ -221,7 +213,7 @@ The scripts that construct the main data set are those numbered "01" and "02" in
 The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
 
 
-## Descriptive & Econometric Analysis
+## c) Descriptive & Econometric Analysis
 
 The econometric analysis is done using the data set generated in the `02_Merge_Macro-Climate-data_Regions.R` script. The descriptive analysis is done in the script that starts with "10", while the econometric analysis: local-projections and the ARDL model are done in scripts "11" and "12", respectively. As in the data construction pipeline, some specifications for the analysis can be changed from the preamble script.
 
