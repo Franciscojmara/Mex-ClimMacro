@@ -116,7 +116,7 @@ Full guide [here](https://docs.github.com/en/authentication/connecting-to-github
 
 Download and install [**Docker Desktop**](https://www.docker.com/products/docker-desktop/). After installing, open Docker Desktop and make sure it is running.
 
-> **Windows users:** Docker Desktop is the recommended installation. Enable **WSL** if prompted during setup and restart your computer if required. We recommend to download [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about#what-is-wsl-2) integration, although it is not necessary to reproduce the environment.
+> **Windows users:** Docker Desktop is the recommended installation. Enable **WSL** if prompted during setup and restart your computer if required. We recommend to download [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about#what-is-wsl-2), although it is not necessary to reproduce the environment.
 
 ### Install Docker from the Terminal (optional)
 If you prefer installing Docker via the terminal instead of downloading Docker Desktop, you can use the following commands (Linux):
@@ -186,7 +186,7 @@ http://localhost:8787
 ```
 
 > This works the same on Windows, macOS, and Linux.  
-> If the port 8787 is busy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files.
+> If the port 8787 is busy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files, and then rebuilding the image, as in [step](#23-build-the-project-environment-one-time).
 
 From the RStudio session, you can now open the `MAIN.R` script and inspect the project's source code. See the [Pipeline Overview](#4-pipeline-overview) section for more information.
 
