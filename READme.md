@@ -87,7 +87,8 @@ cd Mex-ClimMacro
 ```
 
 > **Windows users:** You can run these commands using **Git Bash**, **PowerShell**, or **VSCode terminal**.  
-> If you don’t have Git, intall it [here](https://git-scm.com/download/win).\
+> If you don’t have Git, intall it [here](https://git-scm.com/download/win).
+
 To clone this repository, you’ll need to authenticate with GitHub using either a Personal Access Token (PAT) or an SSH key.
 
 ### Github authentication (PAT or SSH)
