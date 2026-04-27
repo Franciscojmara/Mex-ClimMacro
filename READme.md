@@ -8,7 +8,27 @@ This repository provides a fully reproducible computational pipeline for the [pa
 
 This project combines **climate data and inflation data** to estimate the impact of weather shocks on inflation using econometric techniques such as **Local Projections (LP)** and **panel ARDL models**.
 
-The workflow is fully containerized using **Docker** and uses [**`renv`**](https://rstudio-github-io.translate.goog/renv/index.html?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc) to guarantee reproducibility of the R environment.
+The workflow is fully containerized using [**`Docker`**](https://docs.docker.com/get-started/docker-overview/), and uses [**`renv`**](https://rstudio-github-io.translate.goog/renv/index.html?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc) to guarantee reproducibility of the R environment.
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Setup](#setup)
+  - [1. Clone the repository](#1-clone-the-repository)
+  - [2. Install Docker (one-time)](#2-install-docker-one-time)
+  - [3. Build the project environment (one-time)](#3-build-the-project-environment-one-time)
+  - [4. Run the Full Pipeline](#4-run-the-full-pipeline)
+    - [Interactive Mode (recommended)](#interactive-mode-recommended)
+    - [Batch Mode](#batch-mode)
+    - [Switching between modes](#switching-between-modes)
+    - [Stop the environment](#stop-the-environment)
+    - [Reproducibility](#reproducibility)
+- [Raw Data](#raw-data)
+- [Pipeline Overview](#pipeline-overview)
+  - [a) Preamble and Global Configuration](#a-preamble-and-global-configuration)
+  - [b) Data construction](#b-data-construction)
+  - [c) Descriptive and Econometric Analysis](#c-descriptive-and-econometric-analysis)
+- [Contact](#contact)
 
 ---
 
@@ -39,6 +59,8 @@ The workflow is fully containerized using **Docker** and uses [**`renv`**](https
 │   └── Tables/
 ├── renv.lock
 ├── renv/
+├── entrypoint.sh
+├── docker-compose.yml
 ├── Dockerfile
 └── README.md
 ```
@@ -49,40 +71,32 @@ The workflow is fully containerized using **Docker** and uses [**`renv`**](https
 
 ## 1. Clone the repository
 
+In the terminal, use the following command:
+
 ```bash
 git clone https://github.com/Franciscojmara/Mex-ClimMacro
 cd Mex-ClimMacro
 ```
 
-### Github authentication (PAT or SSH)
-
 To clone this repository, you’ll need to authenticate with GitHub using either a Personal Access Token (PAT) or an SSH key.
+
+### Github authentication (PAT or SSH)
 
 #### Option 1 (recommended): Personal Access Token (HTTPS)
 1. Generate a PAT in GitHub (**Settings → Developer settings → Personal access tokens**).
 2. Use your GitHub username and the PAT as your password when cloning via HTTPS.
 3. (Optional) Configure a credential helper to store it securely.
 
-Full guide: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+Full guide [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
----
 
 #### Option 2: SSH Key
 1. Generate an SSH key (`ssh-keygen`) and add it to your SSH agent.
 2. Add the public key to your GitHub account (**Settings → SSH and GPG keys**).
 3. Clone using the SSH URL (`git@github.com:...`).
 
-Full guide: https://docs.github.com/en/authentication/connecting-to-github-with-ssh
+Full guide [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
 
-### Outputs
-
-Inside the container, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories.
-
-- Tables: `Results/Tables/`
-- Figures: `Results/Figures/`
-- Processed data: `Data/Preprocessed/`
-
----
 
 ## 2. Install Docker (one-time)
 
@@ -95,17 +109,13 @@ After installing, open Docker Desktop and make sure it is running.
 ### Install Docker from the Terminal (optional)
 If you prefer installing Docker via the terminal instead of downloading Docker Desktop, you can use the following commands.
 ```bash
-# Update packages
-sudo apt update
 
-# Install Docker
+sudo apt update
 sudo apt install -y docker.io docker-compose-plugin
 
-# Start Docker
 sudo systemctl start docker
 sudo systemctl enable docker
 
-# Allow running docker without sudo (recommended)
 sudo usermod -aG docker $USER
 ```
 After running the last command, restart your terminal.
@@ -116,47 +126,53 @@ docker --version
 docker compose version
 ```
 
----
-
 ## 3. Build the project environment (one-time)
 
 ```bash
-# Build image
 docker compose build --no-cache
 ```
 
 This step prepares everything needed to run the project (R, packages, dependencies).  
 It may take a few minutes the first time.
 
----
 
 ## 4. Run the Full Pipeline
 
-### 💻 Interactive Mode (recommended)
+Inside the container, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories in the host machine, inside the main project directory.
+
+- Tables: `Results/Tables/`
+- Figures: `Results/Figures/`
+- Processed data: `Data/Preprocessed/`
+
+There are two modes for running the project's pipeline: interactive and batch
+
+### 1) Interactive Mode (recommended)
 
 This mode allows you to run the project's pipeline script by script, or even line by line. To do this, one must launch an R session in browser using `docker compose`.
 
 First, from the terminal, launch RStudio using Docker:
 
 ```bash
-# Laun interactive RStudio session in browser
 docker compose up -d rstudio
 ```
 
-And then, in your browser, open the following url:
+And then, in your browser, paste the following url:
 
 ```
 http://localhost:8787
 ```
 
+> If the port 8787 is bussy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files.
+
+From the RStudio session, you can now open the `MAIN.R` script and inspect the project's source code. See the [Pipeline Overview](#pipeline-overview) section for more information.
+
 ---
 
-### ▶️ Batch Mode
+### 2) Batch Mode
 
 If you are only interested in reproducing the whole project without inspection, you can do it in batch model. In the terminal, run the full pipeline automatically:
 
 ```bash
-# Get figures and tables using batch mode
 docker compose run --rm batch
 ```
 
