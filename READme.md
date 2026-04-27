@@ -76,72 +76,112 @@ Full guide: https://docs.github.com/en/authentication/connecting-to-github-with-
 
 ### Outputs
 
-Inside the image, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories.
+Inside the container, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories.
 
 - Tables: `Results/Tables/`
 - Figures: `Results/Figures/`
 - Processed data: `Data/Preprocessed/`
 
+---
 
-## 2. Build the Docker image
+## 2. Install Docker (one-time)
 
+Download and install **Docker Desktop**:
+
+https://www.docker.com/products/docker-desktop/
+
+After installing, open Docker Desktop and make sure it is running.
+
+### Install Docker from the Terminal (optional)
+If you prefer installing Docker via the terminal instead of downloading Docker Desktop, you can use the following commands.
 ```bash
-docker build \
-  --build-arg USER_ID=$(id -u) \
-  --build-arg GROUP_ID=$(id -g) \
-  -t mexclim .
+# Update packages
+sudo apt update
+
+# Install Docker
+sudo apt install -y docker.io docker-compose-plugin
+
+# Start Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Allow running docker without sudo (recommended)
+sudo usermod -aG docker $USER
 ```
+After running the last command, restart your terminal.
 
-Using the ---build-arg, ensures that the container has the permissions to write files in the host machine (only if mounting directories). The files that the programs will export are the paper's tables and figures.
-
-#### IMPORTANT caveat
-This works on Linux / WSL / macOS. On Windows (non-WSL), $(id -u) won’t work, so you can fallback to:
-
+Test the installation:
 ```bash
-docker build -t mexclim .
+docker --version
+docker compose version
 ```
 
 ---
 
-## 3. Run the Full Pipeline
-
-### ▶️ Batch Mode
+## 3. Build the project environment (one-time)
 
 ```bash
-docker run --rm \
-  -v $(pwd)/Data:/home/rstudio/project/Data \
-  -v $(pwd)/Results:/home/rstudio/project/Results \
-  mexclim \
-  Rscript MAIN.R
+# Build image
+docker compose build --no-cache
 ```
 
-### 💻 Interactive Mode (RStudio)
+This step prepares everything needed to run the project (R, packages, dependencies).  
+It may take a few minutes the first time.
 
-This mode is designed for **inspection and interaction with outputs**. An RStudio session will be launched on port 8787. Modify the command acordignly if said port is busy.
+---
+
+## 4. Run the Full Pipeline
+
+### 💻 Interactive Mode (recommended)
+
+This mode allows you to run the project's pipeline script by script, or even line by line. To do this, one must launch an R session in browser using `docker compose`.
+
+First, from the terminal, launch RStudio using Docker:
 
 ```bash
-docker run -d \
-  --name mexclim-rstudio \
-  -p 8787:8787 \
-  -e DISABLE_AUTH=true \
-  -v $(pwd)/Data:/home/rstudio/project/Data \
-  -v $(pwd)/Results:/home/rstudio/project/Results \
-  mexclim
+# Laun interactive RStudio session in browser
+docker compose up -d rstudio
 ```
 
-Open in browser:
+And then, in your browser, open the following url:
 
 ```
 http://localhost:8787
 ```
 
-### Permission issues (if encountered)
+---
 
-If you see a "Permission denied" error when writing outputs, run:
+### ▶️ Batch Mode
+
+If you are only interested in reproducing the whole project without inspection, you can do it in batch model. In the terminal, run the full pipeline automatically:
 
 ```bash
-sudo chown -R $USER:$USER Data Results
+# Get figures and tables using batch mode
+docker compose run --rm batch
 ```
+
+---
+
+### Switching between modes
+
+You can switch between interactive and batch modes at any time:
+
+- Use RStudio → `docker compose up -d rstudio`
+- Run pipeline:
+  - inside RStudio: `source("MAIN.R")`
+  - or terminal: `docker compose run --rm batch`
+
+No rebuilding is required.
+
+---
+
+### Stop the environment
+
+```bash
+docker compose down
+```
+
+---
 
 ### Reproducibility
 
@@ -161,7 +201,7 @@ The repository contains the raw data files needed to construct the main data set
 - Source: Climate Research Unit (CRU), University of East Anglia (via World Bank)
 - Coverage: 1901–2024  
 - Location: `Data/Raw/Climate/`
- 
+
 ### b) Inflation Data
 - Source: INEGI (Consumer Price Index components)
 - Location: `Data/Raw/Inflation/`
@@ -211,7 +251,6 @@ The scripts that construct the main data set are those numbered "01" and "02" in
 - `02_Merge_Macro-Climate-data_Regions.R`
 
 The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
-
 
 ## c) Descriptive & Econometric Analysis
 
