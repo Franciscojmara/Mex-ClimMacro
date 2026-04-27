@@ -35,7 +35,7 @@ The workflow is fully containerized using [**`Docker`**](https://docs.docker.com
 
 ## 1. Project Structure
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 ```
@@ -75,7 +75,7 @@ The workflow is fully containerized using [**`Docker`**](https://docs.docker.com
 
 ## 2.1 Clone the repository
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 In the terminal, use the following command:
@@ -107,7 +107,7 @@ Full guide [here](https://docs.github.com/en/authentication/connecting-to-github
 
 ## 2.2 Install Docker (one-time)
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 Download and install **Docker Desktop**:
@@ -138,7 +138,7 @@ docker compose version
 
 ## 2.3 Build the project environment (one-time)
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 ```bash
@@ -151,7 +151,7 @@ It may take a few minutes the first time.
 
 ## 2.4 Run the Full Pipeline
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 Inside the container, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.pdf` files that will be exported into the following directories in the host machine, inside the main project directory.
@@ -227,7 +227,7 @@ This project guarantees reproducibility through:
 
 # 3. Raw Data
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 The repository contains the raw data files needed to construct the main data set. Below, there is a brief description of the type of data and its source, along with the location of the files within the repository.
@@ -257,7 +257,7 @@ The repository contains the raw data files needed to construct the main data set
 
 #  4. Pipeline Overview
 
-[⬆ Back to top](#table-of-contents)
+[Back to top](#table-of-contents)
 
 
 The pipeline is orchestrated by:
@@ -267,9 +267,6 @@ MAIN.R
 ```
 
 ## a) Preamble and Global Configuration
-
-[⬆ Back to top](#table-of-contents)
-
 
 The file `scripts/00_Preamble.R` is executed at the beginning of the pipeline and is central to reproducibility and consistency. It performs the following tasks:
 
@@ -287,9 +284,6 @@ The file `scripts/00_Preamble.R` is executed at the beginning of the pipeline an
 
 ## b) Data construction
 
-[⬆ Back to top](#table-of-contents)
-
-
 After cloning the repository, the raw data files are downloaded so you can construct the main data set from the beginning. Regardless, the main data set is still included in the repo. Although the raw climate data is also downloaded when cloning the repo, the pipeline still connects to the World Bank API and downloads the data. The macroeconomic data is only loaded on the scripts, there is no downloading step. 
 
 The scripts that construct the main data set are those numbered "01" and "02" inside the `scripts/` directory:
@@ -302,9 +296,6 @@ The scripts that construct the main data set are those numbered "01" and "02" in
 The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
 
 ## c) Descriptive & Econometric Analysis
-
-[⬆ Back to top](#table-of-contents)
-
 
 The econometric analysis is done using the data set generated in the `02_Merge_Macro-Climate-data_Regions.R` script. The descriptive analysis is done in the script that starts with "10", while the econometric analysis: local-projections and the ARDL model are done in scripts "11" and "12", respectively. As in the data construction pipeline, some specifications for the analysis can be changed from the preamble script.
 
