@@ -29,7 +29,8 @@ The workflow is fully containerized using [**`Docker`**](https://docs.docker.com
   - [a) Preamble and Global Configuration](#a-preamble-and-global-configuration)
   - [b) Data construction](#b-data-construction)
   - [c) Descriptive and Econometric Analysis](#c-descriptive--econometric-analysis)
-- [5. Contact](#5-contact)
+- [5. Citation](#5-citation)
+- [6. Contact](#6-contact)
 
 
 ---
@@ -319,7 +320,25 @@ Results/
 
 ---
 
-# 5. Contact
+# 5. Citation
+
+```tex
+@techreport{mexclim2026,
+  title={{The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico}},
+  author={Arango-Castillo, Lenin and Martinez-Ramirez, Francisco J.},
+  institution={ArXiv},
+  year={2026},
+  number={2507.14420},
+  type={ArXiv Working Paper},
+  url={https://arxiv.org/abs/2507.14420}
+}
+```
+
+> Arango-Castillo, L. and Martinez-Ramirez, F. J. (2026). The effects of temperature and rainfal anomalies on macroeconomic variables: The case of Mexico. ArXiv Working Paper 2507.14420, ArXiv.
+
+---
+
+# 6. Contact
 
 [⬆ Back to top](#table-of-contents)
 
