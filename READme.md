@@ -86,6 +86,9 @@ git clone https://github.com/Franciscojmara/Mex-ClimMacro
 cd Mex-ClimMacro
 ```
 
+> **Windows users:** You can run these commands using **Git Bash**, **PowerShell**, or **VSCode terminal**.  
+> If you don’t have Git installed: https://git-scm.com/download/win
+
 To clone this repository, you’ll need to authenticate with GitHub using either a Personal Access Token (PAT) or an SSH key.
 
 ### Github authentication (PAT or SSH)
@@ -117,10 +120,12 @@ https://www.docker.com/products/docker-desktop/
 
 After installing, open Docker Desktop and make sure it is running.
 
-### Install Docker from the Terminal (optional)
-If you prefer installing Docker via the terminal instead of downloading Docker Desktop, you can use the following commands.
-```bash
+> **Windows users:** Docker Desktop is the recommended installation. Enable **WSL** if prompted during setup and restart your computer if required. We recommend to download [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) integration, although it is not necessary to reproduce the environment.
 
+### Install Docker from the Terminal (optional)
+If you prefer installing Docker via the terminal instead of downloading Docker Desktop, you can use the following commands (Linux):
+
+```bash
 sudo apt update
 sudo apt install -y docker.io docker-compose-plugin
 
@@ -129,6 +134,9 @@ sudo systemctl enable docker
 
 sudo usermod -aG docker $USER
 ```
+
+> **Windows equivalent:** Not required when using Docker Desktop. All Docker commands below work from **PowerShell**, **Git Bash**, or **VSCode terminal** once Docker Desktop is running.
+
 After running the last command, restart your terminal.
 
 Test the installation:
@@ -145,6 +153,8 @@ docker compose version
 ```bash
 docker compose build --no-cache
 ```
+
+> **Windows users:** Run this command from PowerShell, Git Bash, or VSCode terminal, and ensure Docker Desktop is running.
 
 This step prepares everything needed to run the project (R, packages, dependencies).  
 It may take a few minutes the first time.
@@ -179,7 +189,8 @@ And then, in your browser, paste the following url:
 http://localhost:8787
 ```
 
-> If the port 8787 is bussy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files.
+> This works the same on Windows, macOS, and Linux.  
+> If the port 8787 is busy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files.
 
 From the RStudio session, you can now open the `MAIN.R` script and inspect the project's source code. See the [Pipeline Overview](#4-pipeline-overview) section for more information.
 
@@ -261,7 +272,7 @@ The repository contains the raw data files needed to construct the main data set
 [Back to top](#table-of-contents)
 
 
-The pipeline is orchestrated by the R script: `MAIN.R`. Located in the main directory of the project. From this file, the scripts from `scripts\` are called.
+The pipeline is orchestrated by the R script: `MAIN.R`. Located in the main directory of the project. From this file, the scripts from `scripts/` are called.
 
 ## a) Preamble and Global Configuration
 
