@@ -14,21 +14,21 @@ The workflow is fully containerized using [**`Docker`**](https://docs.docker.com
 ## Table of Contents
 
 - [1. Project Structure](#1-project-structure)
-- [2. Setup](#2-setup)
-  - [2.1 Clone the repository](#21-clone-the-repository)
-  - [2.2 Install Docker (one-time)](#22-install-docker-one-time)
-  - [2.3 Build the project environment (one-time)](#23-build-the-project-environment-one-time)
-  - [2.4 Run the Full Pipeline](#24-run-the-full-pipeline)
+- [2. Pipeline Overview](#2-pipeline-overview)
+  - [a) Preamble and Global Configuration](#a-preamble-and-global-configuration)
+  - [b) Data construction](#b-data-construction)
+  - [c) Descriptive and Econometric Analysis](#c-descriptive--econometric-analysis)
+- [3. Raw Data](#3-raw-data)
+- [4. Setup](#4-setup)
+  - [4.1 Clone the repository](#41-clone-the-repository)
+  - [4.2 Install Docker (one-time)](#42-install-docker-one-time)
+  - [4.3 Build the project environment (one-time)](#23-build-the-project-environment-one-time)
+  - [4.4 Run the Full Pipeline](#44-run-the-full-pipeline)
     - [Interactive Mode (recommended)](#a-interactive-mode-recommended)
     - [Batch Mode](#b-batch-mode)
     - [Switching between modes](#switching-between-modes)
     - [Stop the environment](#stop-the-environment)
     - [Reproducibility](#reproducibility)
-- [3. Raw Data](#3-raw-data)
-- [4. Pipeline Overview](#4-pipeline-overview)
-  - [a) Preamble and Global Configuration](#a-preamble-and-global-configuration)
-  - [b) Data construction](#b-data-construction)
-  - [c) Descriptive and Econometric Analysis](#c-descriptive--econometric-analysis)
 - [5. Citation](#5-citation)
 - [6. Contact](#6-contact)
 
@@ -73,9 +73,95 @@ The workflow is fully containerized using [**`Docker`**](https://docs.docker.com
 
 ---
 
-# 2. Setup
+#  2. Pipeline Overview
 
-## 2.1 Clone the repository
+[Back to top](#table-of-contents)
+
+
+The pipeline is orchestrated by the R script: `MAIN.R`. Located in the main directory of the project. From this file, the scripts from `scripts/` are called.
+
+## a) Preamble and Global Configuration
+
+The file `scripts/00_Preamble.R` is executed at the beginning of the pipeline and is central to reproducibility and consistency. It performs the following tasks:
+
+- Loads all required R packages
+- Defines global paths used across scripts
+- Creates necessary directories if they do not exist:
+  - `Data/Preprocessed/`
+  - `Results/Tables/`
+  - `Results/Figures/`
+- Defines and stores hyperparameters used in:
+  - Data construction
+  - Model estimation
+
+---
+
+## b) Data construction
+
+After cloning the repository, the raw data files are downloaded so you can construct the main data set from the beginning. Regardless, the main data set is still included in the repo. Although the raw climate data is also downloaded when cloning the repo, the pipeline still connects to the World Bank API and downloads the data. The macroeconomic data is only loaded on the scripts, there is no downloading step. 
+
+The scripts that construct the main data set are those numbered "01" and "02" inside the `scripts/` directory:
+
+- `01_Manage_Climate_Regions.R`
+- `01_Manage_INPC_Regions.R`
+- `01_Manage_ITAEE-GDP_Regions.R`
+- `02_Merge_Macro-Climate-data_Regions.R`
+
+The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
+
+## c) Descriptive & Econometric Analysis
+
+The econometric analysis is done using the data set generated in the `02_Merge_Macro-Climate-data_Regions.R` script. The descriptive analysis is done in the script that starts with "10", while the econometric analysis: local-projections and the ARDL model are done in scripts "11" and "12", respectively. As in the data construction pipeline, some specifications for the analysis can be changed from the preamble script.
+
+The scripts used in the analysis are:
+
+- `10_DescriptivePlots_Economic-Climate_Regions.R`
+- `11_IRF-LP_Economic-Climate_Regions.R`
+- `12_ARDL_Economic-Climate_Regions.R`
+
+Outputs are automatically saved in:
+
+```
+Results/
+├── Tables/
+└── Figures/
+```
+
+---
+
+# 3. Raw Data
+
+[Back to top](#table-of-contents)
+
+
+The repository contains the raw data files needed to construct the main data set. Below, there is a brief description of the type of data and its source, along with the location of the files within the repository.
+
+### a) Climate Data
+- Source: Climate Research Unit (CRU), University of East Anglia (via [World Bank](https://climateknowledgeportal.worldbank.org/))
+- Coverage: 1901–2024  
+- Location: `Data/Raw/Climate/`
+
+### b) Inflation Data
+- Source: [INEGI](https://www.inegi.org.mx/programas/inpc/2018a/) (Consumer Price Index components)
+- Location: `Data/Raw/Inflation/`
+
+### c) GDP Data
+- Source ITAEE: [INEGI](https://www.inegi.org.mx/programas/itaee/2018/)
+- Source GDP: [INEGI](https://www.inegi.org.mx/programas/pibent/2018/) 
+- Location: `Data/Raw/Economic_Activity/`
+
+### d) Auxiliary Data
+- Regional classification of Mexican states/cities
+- Used to compute population-weighted regional aggregates  
+- Location: `Data/Raw/Helpers/`
+
+> IMPORTANT: Raw data may need to be manually provided depending on repository distribution.
+
+---
+
+# 4. Setup
+
+## 4.1 Clone the repository
 
 [Back to top](#table-of-contents)
 
@@ -110,7 +196,7 @@ c) Clone using the SSH URL (`git@github.com:...`).
 Full guide [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
 
 
-## 2.2 Install Docker (one-time)
+## 4.2 Install Docker (one-time)
 
 [Back to top](#table-of-contents)
 
@@ -142,7 +228,7 @@ docker --version
 docker compose version
 ```
 
-## 2.3 Build the project environment (one-time)
+## 4.3 Build the project environment (one-time)
 
 [Back to top](#table-of-contents)
 
@@ -157,7 +243,7 @@ This step prepares everything needed to run the project (R, packages, dependenci
 It may take a few minutes the first time.
 
 
-## 2.4 Run the Full Pipeline
+## 4.4 Run the Full Pipeline
 
 [Back to top](#table-of-contents)
 
@@ -233,92 +319,6 @@ This project guarantees reproducibility through:
 - **Docker**: system dependencies and OS
 - **renv**: exact R package versions (`renv.lock`)
 - **Deterministic pipeline**: controlled script execution via `MAIN.R`
-
----
-
-# 3. Raw Data
-
-[Back to top](#table-of-contents)
-
-
-The repository contains the raw data files needed to construct the main data set. Below, there is a brief description of the type of data and its source, along with the location of the files within the repository.
-
-### a) Climate Data
-- Source: Climate Research Unit (CRU), University of East Anglia (via [World Bank](https://climateknowledgeportal.worldbank.org/))
-- Coverage: 1901–2024  
-- Location: `Data/Raw/Climate/`
-
-### b) Inflation Data
-- Source: [INEGI](https://www.inegi.org.mx/programas/inpc/2018a/) (Consumer Price Index components)
-- Location: `Data/Raw/Inflation/`
-
-### c) GDP Data
-- Source ITAEE: [INEGI](https://www.inegi.org.mx/programas/itaee/2018/)
-- Source GDP: [INEGI](https://www.inegi.org.mx/programas/pibent/2018/) 
-- Location: `Data/Raw/Economic_Activity/`
-
-### d) Auxiliary Data
-- Regional classification of Mexican states/cities
-- Used to compute population-weighted regional aggregates  
-- Location: `Data/Raw/Helpers/`
-
-> IMPORTANT: Raw data may need to be manually provided depending on repository distribution.
-
----
-
-#  4. Pipeline Overview
-
-[Back to top](#table-of-contents)
-
-
-The pipeline is orchestrated by the R script: `MAIN.R`. Located in the main directory of the project. From this file, the scripts from `scripts/` are called.
-
-## a) Preamble and Global Configuration
-
-The file `scripts/00_Preamble.R` is executed at the beginning of the pipeline and is central to reproducibility and consistency. It performs the following tasks:
-
-- Loads all required R packages
-- Defines global paths used across scripts
-- Creates necessary directories if they do not exist:
-  - `Data/Preprocessed/`
-  - `Results/Tables/`
-  - `Results/Figures/`
-- Defines and stores hyperparameters used in:
-  - Data construction
-  - Model estimation
-
----
-
-## b) Data construction
-
-After cloning the repository, the raw data files are downloaded so you can construct the main data set from the beginning. Regardless, the main data set is still included in the repo. Although the raw climate data is also downloaded when cloning the repo, the pipeline still connects to the World Bank API and downloads the data. The macroeconomic data is only loaded on the scripts, there is no downloading step. 
-
-The scripts that construct the main data set are those numbered "01" and "02" inside the `scripts/` directory:
-
-- `01_Manage_Climate_Regions.R`
-- `01_Manage_INPC_Regions.R`
-- `01_Manage_ITAEE-GDP_Regions.R`
-- `02_Merge_Macro-Climate-data_Regions.R`
-
-The "01" scripts load the raw data from `Data/Raw` and will perform some data cleaning and preprocessing, for instance, seasonal adjustments, climate normal computations, climate anomalies construction, and further transformations (see section 3 of the paper for details on the variables used). The script "02" will load the preprocessed data, constructed in the "01" scripts, from the `Data/Preprocessed` directory and will merge all the macroeconomic and climate variables used in the study to construct the final data set, which will be stored directly on `Data/`.
-
-## c) Descriptive & Econometric Analysis
-
-The econometric analysis is done using the data set generated in the `02_Merge_Macro-Climate-data_Regions.R` script. The descriptive analysis is done in the script that starts with "10", while the econometric analysis: local-projections and the ARDL model are done in scripts "11" and "12", respectively. As in the data construction pipeline, some specifications for the analysis can be changed from the preamble script.
-
-The scripts used in the analysis are:
-
-- `10_DescriptivePlots_Economic-Climate_Regions.R`
-- `11_IRF-LP_Economic-Climate_Regions.R`
-- `12_ARDL_Economic-Climate_Regions.R`
-
-Outputs are automatically saved in:
-
-```
-Results/
-├── Tables/
-└── Figures/
-```
 
 ---
 
