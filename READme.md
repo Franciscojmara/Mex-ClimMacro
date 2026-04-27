@@ -260,11 +260,7 @@ The repository contains the raw data files needed to construct the main data set
 [Back to top](#table-of-contents)
 
 
-The pipeline is orchestrated by:
-
-```
-MAIN.R
-```
+The pipeline is orchestrated by the R script: `MAIN.R`. Located in the main directory of the project. From this file, the scripts from `scripts\` are called.
 
 ## a) Preamble and Global Configuration
 
