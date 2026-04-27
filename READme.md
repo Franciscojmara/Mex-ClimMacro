@@ -120,7 +120,7 @@ https://www.docker.com/products/docker-desktop/
 
 After installing, open Docker Desktop and make sure it is running.
 
-> **Windows users:** Docker Desktop is the recommended installation. Enable **WSL** if prompted during setup and restart your computer if required. We recommend to download [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) integration, although it is not necessary to reproduce the environment.
+> **Windows users:** Docker Desktop is the recommended installation. Enable **WSL** if prompted during setup and restart your computer if required. We recommend to download [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about#what-is-wsl-2) integration, although it is not necessary to reproduce the environment.
 
 ### Install Docker from the Terminal (optional)
 If you prefer installing Docker via the terminal instead of downloading Docker Desktop, you can use the following commands (Linux):
