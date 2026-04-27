@@ -168,7 +168,9 @@ Inside the container, the pipeline will generate `.xlsx`, `.csv`, `.tex`, and `.
 - Figures: `Results/Figures/`
 - Processed data: `Data/Preprocessed/`
 
-There are two modes for running the project's pipeline: interactive and batch
+There are two modes for running the project's pipeline: interactive and batch.
+
+---
 
 ### a) Interactive Mode (recommended)
 
