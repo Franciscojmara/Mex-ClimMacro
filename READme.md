@@ -180,7 +180,7 @@ http://localhost:8787
 
 > If the port 8787 is bussy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files.
 
-From the RStudio session, you can now open the `MAIN.R` script and inspect the project's source code. See the [Pipeline Overview](#pipeline-overview) section for more information.
+From the RStudio session, you can now open the `MAIN.R` script and inspect the project's source code. See the [Pipeline Overview](#4-pipeline-overview) section for more information.
 
 ---
 
