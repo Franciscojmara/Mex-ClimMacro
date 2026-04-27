@@ -322,6 +322,10 @@ Results/
 
 # 5. Citation
 
+Please cite this project as:
+
+> Arango-Castillo, L. and Martinez-Ramirez, F. J. (2026). The effects of temperature and rainfal anomalies on macroeconomic variables: The case of Mexico. ArXiv Working Paper 2507.14420, ArXiv.
+
 ```tex
 @techreport{mexclim2026,
   title={{The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico}},
@@ -333,9 +337,6 @@ Results/
   url={https://arxiv.org/abs/2507.14420}
 }
 ```
-
-> Arango-Castillo, L. and Martinez-Ramirez, F. J. (2026). The effects of temperature and rainfal anomalies on macroeconomic variables: The case of Mexico. ArXiv Working Paper 2507.14420, ArXiv.
-
 ---
 
 # 6. Contact
