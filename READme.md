@@ -3,7 +3,7 @@
 This repository provides a fully reproducible computational pipeline for the [paper](https://arxiv.org/pdf/2507.14420):
 
 **The effects of temperature and rainfall anomalies on macroeconomic variables: The case of Mexico**  
-*Lenin Arango-Castillo (Bank of Mexico)*\n
+*Lenin Arango-Castillo (Bank of Mexico)*\
 *Francisco J. Martínez-Ramírez (Bank of Mexico)*
 
 > This paper measures the effects of temperature and precipitation shocks on Mexican inflation using a regional panel. To measure the long-term inflationary effects of climate shocks, we estimate a panel autoregressive distributed lag model (panel ARDL) of the quarterly variation of the price index against the population-weighted temperature and precipitation deviations from their historical norm, computed using the 30-year moving average. In addition, we measure the short-term effects of climate shocks by estimating impulse response functions using panel local projections. The result indicates that, in the short term, the climate variables have no statistical effect on Mexican inflation. However, in the long term, only precipitation norms have a statistical effect, and the temperature norms have no statistical impact. Higher than normal precipitation has a positive and statistically significant effect on Mexican inflation for all items.
