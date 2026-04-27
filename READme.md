@@ -87,7 +87,7 @@ cd Mex-ClimMacro
 ```
 
 > **Windows users:** You can run these commands using **Git Bash**, **PowerShell**, or **VSCode terminal**.  
-> If you don’t have Git installed: https://git-scm.com/download/win
+> If you don’t have Git, intall it [here](https://git-scm.com/download/win).
 
 To clone this repository, you’ll need to authenticate with GitHub using either a Personal Access Token (PAT) or an SSH key.
 
@@ -114,11 +114,7 @@ Full guide [here](https://docs.github.com/en/authentication/connecting-to-github
 [Back to top](#table-of-contents)
 
 
-Download and install **Docker Desktop**:
-
-https://www.docker.com/products/docker-desktop/
-
-After installing, open Docker Desktop and make sure it is running.
+Download and install [**Docker Desktop**](https://www.docker.com/products/docker-desktop/). After installing, open Docker Desktop and make sure it is running.
 
 > **Windows users:** Docker Desktop is the recommended installation. Enable **WSL** if prompted during setup and restart your computer if required. We recommend to download [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about#what-is-wsl-2) integration, although it is not necessary to reproduce the environment.
 
