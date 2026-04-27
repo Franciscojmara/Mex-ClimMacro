@@ -194,7 +194,7 @@ From the RStudio session, you can now open the `MAIN.R` script and inspect the p
 
 ### b) Batch Mode
 
-If you are only interested in reproducing the whole project without inspection, you can do it in batch model. In the terminal, run the full pipeline automatically:
+If you are only interested in reproducing the whole project without inspection, you can do it in batch model. IN this mode, the data, figures, and tables generated in the pipeline will be exported to the host machine. In the terminal, run the full pipeline automatically:
 
 ```bash
 docker compose run --rm batch
