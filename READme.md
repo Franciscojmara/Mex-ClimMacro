@@ -179,7 +179,9 @@ First, from the terminal, launch RStudio using Docker:
 docker compose up -d rstudio
 ```
 
-And then go into http://localhost:8787
+And then go to 
+
+http://localhost:8787
 
 > This works the same on Windows, macOS, and Linux.  
 > If the port 8787 is busy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files, and then rebuilding the image, as in [step 2.3](#23-build-the-project-environment-one-time).
