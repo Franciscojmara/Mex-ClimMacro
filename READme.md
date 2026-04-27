@@ -194,7 +194,7 @@ From the RStudio session, you can now open the `MAIN.R` script and inspect the p
 
 ### b) Batch Mode
 
-If you are only interested in reproducing the whole project without inspection, you can do it in batch. In this mode, the data, figures, and tables generated inside the pipeline will be exported to their respective local directories in the host machine, that is, the analysis will be performed inside the virtual machine (image), but the results (data, tables, and figures) are exported to a directory inside the host machine.\
+If you are only interested in reproducing the whole project without inspection, you can do it in batch. In this mode, the data, figures, and tables generated inside the pipeline will be exported to their respective local directories in the host machine, that is, the analysis will be performed inside the virtual machine, but the results (data, tables, and figures) are exported to a directory inside the host machine.
 
 In the terminal (Windows, macOS, and Linux), run the full pipeline:
 
