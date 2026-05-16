@@ -142,12 +142,12 @@ The repository contains the raw data files needed to construct the main data set
 - Location: `Data/Raw/Climate/`
 
 ### b) Inflation Data
-- Source: [INEGI](https://www.inegi.org.mx/programas/inpc/2018a/) (Consumer Price Index components)
+- Source: [CPI-INEGI](https://www.inegi.org.mx/programas/inpc/2018a/) (Consumer Price Index components)
 - Location: `Data/Raw/Inflation/`
 
 ### c) GDP Data
-- Source ITAEE: [INEGI](https://www.inegi.org.mx/programas/itaee/2018/)
-- Source GDP: [INEGI](https://www.inegi.org.mx/programas/pibent/2018/) 
+- Source: [ITAEE-INEGI](https://www.inegi.org.mx/programas/itaee/2018/)
+- Source: [GDP-INEGI](https://www.inegi.org.mx/programas/pibent/2018/) 
 - Location: `Data/Raw/Economic_Activity/`
 
 ### d) Auxiliary Data
