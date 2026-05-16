@@ -237,7 +237,7 @@ xbreaks <- seq.Date(
   geom_line(aes(date, headline, group=region), data=pdata.r, linewidth=0.75,
             color=alpha("#868686",0.70)) +
   geom_line(aes(date, headline), data=pdata.n, linewidth=0.75, color="#182B47") +
-  labs(x = "", y = "Percent change") + 
+  labs(x = "", y = "%") + 
   scale_x_date(breaks = xbreaks, date_labels = "%Y", expand = c(0,0)) +
   scale_y_continuous(breaks = ybreaks) +
   coord_cartesian(ylim = c(head(ybreaks, 1), tail(ybreaks, 1))) +
@@ -282,7 +282,7 @@ for (i in inpc_var) {
                 linewidth = 0.75, color = "#000000") +
       geom_line(aes(date, inflation, color = region), data = pdata, linewidth = 0.75) +
       geom_hline(yintercept = 0, linewidth = 0.4) +
-      labs(x = "", y = "Percent change") + 
+      labs(x = "", y = "%") + 
       coord_cartesian(ylim = c(head(ybreaks, 1), tail(ybreaks, 1))) +
       scale_y_continuous(breaks = ybreaks) + 
       scale_x_date(breaks = xbreaks, date_labels = "%Y", expand = c(0,0)) +
@@ -330,7 +330,7 @@ xbreaks <- seq.Date(
     geom_line(aes(date, d.gdp.total, group=region), data=pdata.r, linewidth=0.75,
               color=alpha("#868686",0.75)) +
     geom_line(aes(date, d.gdp.total), data=pdata.n, linewidth=0.75, color="#182B47") +
-    labs(x = "", y = "Percent change") + # "Thousands of pesos, 2018 prices" 
+    labs(x = "", y = "%") + # "Thousands of pesos, 2018 prices" 
     scale_x_date(breaks = xbreaks, date_labels = "%Y", expand = c(0,0)) +
     scale_y_continuous(breaks = ybreaks) +
     coord_cartesian(ylim = c(head(ybreaks, 1), tail(ybreaks, 1))) +
@@ -376,7 +376,7 @@ for (pvar0 in c("total","primarias","secundarias","terciarias")) {
       geom_line(aes(date, gdp), data = subset(pdata, region == "nacional"),
                 linewidth = 0.75, color = "#000000") +
       geom_line(aes(date, gdp, color = region), data = pdata, linewidth = 0.75) +
-      labs(x = "", y = "Percent change") + 
+      labs(x = "", y = "%") + 
       scale_color_manual(values = pfill0, labels = plvls0) +
       scale_x_date(breaks = xbreaks, date_labels = "%Y", expand = c(0,0)) +
       scale_y_continuous(breaks = ybreaks) +
