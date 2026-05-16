@@ -22,7 +22,7 @@ The workflow is fully containerized using [**`Docker`**](https://docs.docker.com
 - [4. Setup](#4-setup)
   - [4.1 Clone the repository](#41-clone-the-repository)
   - [4.2 Install Docker (one-time)](#42-install-docker-one-time)
-  - [4.3 Build the project environment (one-time)](#23-build-the-project-environment-one-time)
+  - [4.3 Build the project environment (one-time)](#43-build-the-project-environment-one-time)
   - [4.4 Run the Full Pipeline](#44-run-the-full-pipeline)
     - [Interactive Mode (recommended)](#a-interactive-mode-recommended)
     - [Batch Mode](#b-batch-mode)
@@ -273,7 +273,7 @@ And then go to
 http://localhost:8787
 
 > This works the same on Windows, macOS, and Linux.  
-> If the port 8787 is busy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files, and then rebuilding the image, as in [step 2.3](#23-build-the-project-environment-one-time).
+> If the port 8787 is busy, you can change it modifying the `Dockerfile` and `docker-compose.yml` files, and then rebuilding the image, as in [step 2.3](#43-build-the-project-environment-one-time).
 
 From the RStudio session, you can now open the `MAIN.R` script and inspect the project's source code. See the [Pipeline Overview](#4-pipeline-overview) section for more information.
 
